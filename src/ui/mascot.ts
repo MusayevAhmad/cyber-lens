@@ -1,9 +1,8 @@
-// "Lumi", token-lens's mascot: an ORIGINAL character designed for this repo.
-// A round teal drop with big 3×3 eyes and an antenna carrying a gold token coin.
-// It is deliberately unlike any brand mascot (no orange, no legs, no claws,
-// no blocky crab shape) and is not derived from any existing artwork.
+// "Lumi the Star-Puff", lumi-lens's mascot: an ORIGINAL fluffy celestial character.
+// A chubby cloud kitten with soft ears, little paws, rosy cheeks, and a floating
+// lucky star that twinkles and pulses with your session's token telemetry.
 //
-// Frames are 16×16 pixel grids built in code from one body and per-mood face
+// Frames are 16×16 pixel grids built in code from one fluffy body and per-mood face
 // overlays. They render three ways:
 //   - terminal: a 16×8 Raster of half blocks (▀/▄), two pixels per cell,
 //     animated by $.ui.blit (no re-render);
@@ -21,22 +20,22 @@ type Px = keyof typeof PALETTE
 type Grid = (Px | null)[][]
 export type PaletteMap = Record<Px, number>
 
-/** Default teal palette (0x00RRGGBB). */
+/** Default minty celestial palette (0x00RRGGBB). */
 export const PALETTE = {
-  o: 0x1e4d57, // outline
-  b: 0x3cc6b4, // body
-  l: 0xa8f0e4, // highlight
-  w: 0xffffff, // eye white
-  p: 0x1b1b2f, // pupil, mouth, closed eye
-  c: 0xf28ba8, // cheek & heart
-  g: 0xf5c542, // coin
-  G: 0xc9971c, // coin edge / dim coin
-  r: 0xe5484d, // alarm coin
+  o: 0x1e4d57, // dark teal outline
+  b: 0x3cc6b4, // fluffy body
+  l: 0xa8f0e4, // soft highlight
+  w: 0xffffff, // eye sparkle & star core
+  p: 0x1b1b2f, // eyes, pupils, mouth
+  c: 0xf28ba8, // inner ears, cheeks & floating heart
+  g: 0xf5c542, // lucky star
+  G: 0xc9971c, // warm gold / dim star
+  r: 0xe5484d, // alert star
   s: 0x7cc7ff, // sweat drop
   z: 0xe8e8f0, // sleep bubbles
 } as const
 
-/** Fluffy coat palettes for Lumi: teal, sakura, lavender, matcha. */
+/** Fluffy coat palettes: teal (mint), sakura (pink), lavender (lilac), matcha (green). */
 export const THEME_PALETTES: Record<LensTheme, PaletteMap> = {
   teal: { ...PALETTE },
   sakura: {
@@ -68,88 +67,108 @@ export type Sprite = { fps: number; frames: Grid[] }
 
 const empty = (): Grid => Array.from({ length: SIZE }, () => Array<Px | null>(SIZE).fill(null))
 
-function inBody(x: number, y: number): boolean {
-  const dx = (x + 0.5 - 8) / 7
-  const dy = (y + 0.5 - 10.7) / 5.5
-  return y >= 5 && dx * dx + dy * dy <= 1
-}
-
-function body(): Grid {
-  const g = empty()
-  for (let y = 0; y < SIZE; y += 1) {
-    for (let x = 0; x < SIZE; x += 1) {
-      if (!inBody(x, y)) continue
-      const edge = !inBody(x - 1, y) || !inBody(x + 1, y) || !inBody(x, y - 1) || !inBody(x, y + 1)
-      g[y]![x] = edge ? 'o' : 'b'
-    }
-  }
-  for (const [x, y] of [[7, 6], [8, 6]] as const) if (g[y]![x] === 'b') g[y]![x] = 'l' // forehead shine
-  // antenna stem
-  g[3]![7] = 'o'
-  g[4]![7] = 'o'
-  return g
-}
-
 const set = (g: Grid, pts: readonly (readonly [number, number])[], px: Px | null) => {
   for (const [x, y] of pts) if (x >= 0 && x < SIZE && y >= 0 && y < SIZE) g[y]![x] = px
 }
 
-function coin(g: Grid, kind: 'full' | 'edge' | 'red' | 'dim' | 'heart', drop = 0) {
-  if (kind === 'edge') {
-    set(g, [[7, 0 + drop], [7, 1 + drop], [7, 2 + drop]], 'G')
-    return
+function baseBody(earStyle: 'normal' | 'droop' | 'perked' = 'normal'): Grid {
+  const g = empty()
+  // Cute fluffy ears
+  if (earStyle === 'normal') {
+    set(g, [[3, 2], [4, 2], [2, 3], [5, 3], [2, 4], [5, 4]], 'o')
+    set(g, [[3, 3], [4, 3], [3, 4], [4, 4]], 'c')
+    set(g, [[11, 2], [12, 2], [10, 3], [13, 3], [10, 4], [13, 4]], 'o')
+    set(g, [[11, 3], [12, 3], [11, 4], [12, 4]], 'c')
+  } else if (earStyle === 'droop') {
+    set(g, [[2, 3], [3, 3], [1, 4], [4, 4], [1, 5], [4, 5]], 'o')
+    set(g, [[2, 4], [3, 4], [2, 5], [3, 5]], 'c')
+    set(g, [[12, 3], [13, 3], [11, 4], [14, 4], [11, 5], [14, 5]], 'o')
+    set(g, [[12, 4], [13, 4], [12, 5], [13, 5]], 'c')
+  } else if (earStyle === 'perked') {
+    set(g, [[3, 1], [4, 1], [2, 2], [5, 2], [2, 3], [5, 3], [2, 4], [5, 4]], 'o')
+    set(g, [[3, 2], [4, 2], [3, 3], [4, 3]], 'c')
+    set(g, [[11, 1], [12, 1], [10, 2], [13, 2], [10, 3], [13, 3], [10, 4], [13, 4]], 'o')
+    set(g, [[11, 2], [12, 2], [11, 3], [12, 3]], 'c')
   }
-  const face: Px = kind === 'red' ? 'r' : kind === 'dim' ? 'G' : kind === 'heart' ? 'c' : 'g'
-  set(g, [[7, 0 + drop], [6, 1 + drop], [8, 1 + drop], [7, 2 + drop]], face)
-  set(g, [[7, 1 + drop]], kind === 'full' ? 'G' : kind === 'heart' ? 'l' : face)
-}
 
-type EyeLook = 'fwd' | 'upL' | 'upR' | 'wide'
-const LEFT = 3
-const RIGHT = 10
-const EYE_Y = 8
+  // Fluffy marshmallow head and chubby body
+  const spans = [
+    [5, 2, 13],
+    [6, 1, 14],
+    [7, 1, 14],
+    [8, 0, 15],
+    [9, 0, 15],
+    [10, 0, 15],
+    [11, 1, 14],
+    [12, 1, 14],
+    [13, 2, 13],
+    [14, 3, 12],
+  ] as const
 
-/** 3×3 eyes: white, a 2×2 pupil whose top-left pixel stays white (the sparkle). */
-function eyesOpen(g: Grid, look: EyeLook) {
-  for (const ex of [LEFT, RIGHT]) {
-    for (let dy = 0; dy < 3; dy += 1) for (let dx = 0; dx < 3; dx += 1) set(g, [[ex + dx, EYE_Y + dy]], 'w')
-    if (look === 'wide') {
-      set(g, [[ex + 1, EYE_Y + 1]], 'p') // tiny pupil: shock
-      continue
+  for (const [y, x0, x1] of spans) {
+    for (let x = x0; x <= x1; x += 1) {
+      const isEdge = x === x0 || x === x1 || y === 14 || (y === 5 && x >= 6 && x <= 9)
+      g[y]![x] = isEdge ? 'o' : 'b'
     }
-    // fwd looks slightly inward (toward the viewer); up looks to one side.
-    const px = look === 'upL' ? 0 : look === 'upR' ? 1 : ex === LEFT ? 1 : 0
-    const py = look === 'fwd' ? 1 : 0
-    set(g, [[ex + px + 1, EYE_Y + py], [ex + px, EYE_Y + py + 1], [ex + px + 1, EYE_Y + py + 1]], 'p')
+  }
+
+  // Little cute front paws resting at the bottom
+  for (let x = 4; x <= 6; x += 1) g[15]![x] = 'o'
+  for (let x = 9; x <= 11; x += 1) g[15]![x] = 'o'
+  g[14]![5] = 'b'
+  g[14]![10] = 'b'
+
+  // Soft forehead shine
+  g[6]![7] = 'l'
+  g[6]![8] = 'l'
+  return g
+}
+
+/** Floating celestial lucky star. */
+function star(g: Grid, kind: 'full' | 'red' | 'dim' | 'heart' = 'full', drop = 0) {
+  const c: Px = kind === 'red' ? 'r' : kind === 'dim' ? 'G' : kind === 'heart' ? 'c' : 'g'
+  const core: Px = kind === 'dim' ? 'G' : kind === 'red' ? 'r' : kind === 'heart' ? 'l' : 'w'
+  set(g, [[7, 0 + drop], [8, 0 + drop]], c)
+  set(g, [[6, 1 + drop], [9, 1 + drop]], c)
+  set(g, [[7, 1 + drop], [8, 1 + drop]], core)
+  set(g, [[7, 2 + drop], [8, 2 + drop]], c)
+}
+
+const eyesOpen = (g: Grid, look: 'fwd' | 'upL' | 'upR' | 'wide') => {
+  if (look === 'wide') {
+    set(g, [[3, 8], [4, 8], [5, 8], [3, 9], [4, 9], [5, 9]], 'w')
+    set(g, [[4, 9]], 'p')
+    set(g, [[10, 8], [11, 8], [12, 8], [10, 9], [11, 9], [12, 9]], 'w')
+    set(g, [[11, 9]], 'p')
+  } else if (look === 'upL') {
+    set(g, [[4, 8], [5, 8], [4, 9], [5, 9], [10, 8], [11, 8], [10, 9], [11, 9]], 'p')
+    set(g, [[4, 8], [10, 8]], 'w')
+  } else if (look === 'upR') {
+    set(g, [[4, 8], [5, 8], [4, 9], [5, 9], [10, 8], [11, 8], [10, 9], [11, 9]], 'p')
+    set(g, [[5, 8], [11, 8]], 'w')
+  } else {
+    set(g, [[4, 8], [5, 8], [4, 9], [5, 9], [10, 8], [11, 8], [10, 9], [11, 9]], 'p')
+    set(g, [[4, 8], [10, 8]], 'w')
   }
 }
 
-/** A blink: lids meet in the middle. */
-function eyesBlink(g: Grid) {
-  for (const ex of [LEFT, RIGHT]) set(g, [[ex, EYE_Y + 1], [ex + 1, EYE_Y + 1], [ex + 2, EYE_Y + 1]], 'p')
+const eyesBlink = (g: Grid) => set(g, [[4, 9], [5, 9], [10, 9], [11, 9]], 'p')
+const eyesHappy = (g: Grid) => set(g, [[4, 8], [5, 8], [3, 9], [6, 9], [10, 8], [11, 8], [9, 9], [12, 9]], 'p')
+const eyesAsleep = (g: Grid) => set(g, [[3, 9], [4, 10], [5, 10], [6, 9], [9, 9], [10, 10], [11, 10], [12, 9]], 'p')
+const browsWorried = (g: Grid) => set(g, [[4, 7], [5, 7], [6, 6], [11, 7], [10, 7], [9, 6]], 'p')
+
+const mouthSmile = (g: Grid) => set(g, [[7, 11], [8, 11], [6, 12], [9, 12]], 'p')
+const mouthGrin = (g: Grid) => {
+  set(g, [[6, 11], [7, 11], [8, 11], [9, 11], [6, 12], [9, 12]], 'p')
+  set(g, [[7, 12], [8, 12]], 'c')
 }
+const mouthHmm = (g: Grid) => set(g, [[8, 12], [9, 12]], 'p')
+const mouthFrown = (g: Grid) => set(g, [[6, 12], [7, 11], [8, 11], [9, 12]], 'p')
+const mouthOpen = (g: Grid) => set(g, [[7, 11], [8, 11], [7, 12], [8, 12]], 'p')
+const mouthSnore = (g: Grid) => set(g, [[8, 12]], 'p')
 
-/** Asleep: heavy lids, low and curved. */
-function eyesAsleep(g: Grid) {
-  for (const ex of [LEFT, RIGHT]) set(g, [[ex, EYE_Y + 1], [ex + 1, EYE_Y + 2], [ex + 2, EYE_Y + 1]], 'p')
-}
-
-/** Joy: upturned arcs, ^ ^. */
-function eyesHappy(g: Grid) {
-  for (const ex of [LEFT, RIGHT]) set(g, [[ex + 1, EYE_Y], [ex, EYE_Y + 1], [ex + 2, EYE_Y + 1]], 'p')
-}
-
-/** Worry: brows slanting up toward the middle. */
-const browsWorried = (g: Grid) => (set(g, [[7, 6], [8, 6]], 'b'), set(g, [[4, 7], [5, 7], [6, 6], [11, 7], [10, 7], [9, 6]], 'p')) // no shine under a furrowed brow
-
-const mouthSmile = (g: Grid) => set(g, [[6, 12], [7, 13], [8, 13], [9, 12]], 'p') // ‿
-const mouthGrin = (g: Grid) => (set(g, [[5, 12], [6, 12], [7, 12], [8, 12], [9, 12], [10, 12], [6, 13], [9, 13]], 'p'), set(g, [[7, 13], [8, 13]], 'c'))
-const mouthHmm = (g: Grid) => set(g, [[8, 12], [9, 12]], 'p') // a sideways "hmm"
-const mouthFrown = (g: Grid) => set(g, [[7, 12], [8, 12], [6, 13], [9, 13]], 'p') // ︵
-const mouthOpen = (g: Grid) => set(g, [[7, 12], [8, 12], [7, 13], [8, 13]], 'p') // O
-const mouthSnore = (g: Grid) => set(g, [[8, 13]], 'p')
-const cheeks = (g: Grid) => set(g, [[3, 11], [12, 11]], 'c')
-const fluffyCheeks = (g: Grid) => set(g, [[2, 11], [3, 11], [12, 11], [13, 11]], 'c')
+const cheeks = (g: Grid) => set(g, [[2, 10], [3, 10], [12, 10], [13, 10]], 'c')
+const fluffyCheeks = (g: Grid) => set(g, [[1, 10], [2, 10], [3, 10], [12, 10], [13, 10], [14, 10]], 'c')
 const heart = (g: Grid, x: number, y: number) => set(g, [[x, y], [x + 2, y], [x, y + 1], [x + 1, y + 1], [x + 2, y + 1], [x + 1, y + 2]], 'c')
 
 function shift(g: Grid, dx: number): Grid {
@@ -161,8 +180,8 @@ function shift(g: Grid, dx: number): Grid {
   return out
 }
 
-function frame(build: (g: Grid) => void): Grid {
-  const g = body()
+function frame(earStyle: 'normal' | 'droop' | 'perked', build: (g: Grid) => void): Grid {
+  const g = baseBody(earStyle)
   build(g)
   return g
 }
@@ -173,56 +192,56 @@ export const SPRITES: Record<LensMood, Sprite> = {
   idle: {
     fps: 2,
     frames: [
-      frame(g => (coin(g, 'full'), eyesOpen(g, 'fwd'), mouthSmile(g))),
-      frame(g => (coin(g, 'full'), eyesOpen(g, 'fwd'), mouthSmile(g))),
-      frame(g => (coin(g, 'full'), eyesOpen(g, 'fwd'), mouthSmile(g))),
-      frame(g => (coin(g, 'full'), eyesBlink(g), mouthSmile(g))),
+      frame('normal', g => { star(g, 'full'); eyesOpen(g, 'fwd'); mouthSmile(g); cheeks(g) }),
+      frame('normal', g => { star(g, 'full'); eyesOpen(g, 'fwd'); mouthSmile(g); cheeks(g) }),
+      frame('normal', g => { star(g, 'full'); eyesOpen(g, 'fwd'); mouthSmile(g); cheeks(g) }),
+      frame('normal', g => { star(g, 'full'); eyesBlink(g); mouthSmile(g); cheeks(g) }),
     ],
   },
   happy: {
     fps: 3,
     frames: [
-      frame(g => (coin(g, 'full'), eyesHappy(g), mouthGrin(g), cheeks(g))),
-      frame(g => (set(g, [[7, 3]], null), coin(g, 'full', 1), eyesHappy(g), mouthGrin(g), cheeks(g))),
+      frame('normal', g => { star(g, 'full'); eyesHappy(g); mouthGrin(g); fluffyCheeks(g) }),
+      frame('normal', g => { star(g, 'full', 1); eyesHappy(g); mouthGrin(g); fluffyCheeks(g) }),
     ],
   },
   thinking: {
     fps: 4,
     frames: [
-      frame(g => (coin(g, 'full'), eyesOpen(g, 'upL'), mouthHmm(g))),
-      frame(g => (coin(g, 'edge'), eyesOpen(g, 'upL'), mouthHmm(g))),
-      frame(g => (coin(g, 'full'), eyesOpen(g, 'upR'), mouthHmm(g))),
-      frame(g => (coin(g, 'edge'), eyesOpen(g, 'upR'), mouthHmm(g))),
+      frame('normal', g => { star(g, 'full'); eyesOpen(g, 'upL'); mouthHmm(g); cheeks(g) }),
+      frame('normal', g => { star(g, 'dim'); eyesOpen(g, 'upL'); mouthHmm(g); cheeks(g) }),
+      frame('normal', g => { star(g, 'full'); eyesOpen(g, 'upR'); mouthHmm(g); cheeks(g) }),
+      frame('normal', g => { star(g, 'dim'); eyesOpen(g, 'upR'); mouthHmm(g); cheeks(g) }),
     ],
   },
   worried: {
     fps: 3,
     frames: [
-      frame(g => (coin(g, 'full'), eyesOpen(g, 'fwd'), browsWorried(g), mouthFrown(g), set(g, [[14, 6], [14, 7]], 's'))),
-      frame(g => (coin(g, 'full'), eyesOpen(g, 'fwd'), browsWorried(g), mouthFrown(g), set(g, [[14, 7], [14, 8]], 's'))),
+      frame('droop', g => { star(g, 'full'); eyesOpen(g, 'fwd'); browsWorried(g); mouthFrown(g); set(g, [[14, 6], [14, 7]], 's') }),
+      frame('droop', g => { star(g, 'full'); eyesOpen(g, 'fwd'); browsWorried(g); mouthFrown(g); set(g, [[14, 7], [14, 8]], 's') }),
     ],
   },
   alarmed: {
     fps: 6,
     frames: [
-      frame(g => (coin(g, 'red'), eyesOpen(g, 'wide'), mouthOpen(g))),
-      shift(frame(g => (coin(g, 'full'), eyesOpen(g, 'wide'), mouthOpen(g))), 1),
+      frame('perked', g => { star(g, 'red'); eyesOpen(g, 'wide'); mouthOpen(g) }),
+      shift(frame('perked', g => { star(g, 'full'); eyesOpen(g, 'wide'); mouthOpen(g) }), 1),
     ],
   },
   sleepy: {
     fps: 2,
     frames: [
-      frame(g => (coin(g, 'dim'), eyesAsleep(g), mouthSnore(g), set(g, [[11, 4]], 'z'))),
-      frame(g => (coin(g, 'dim'), eyesAsleep(g), mouthSnore(g), set(g, [[12, 2]], 'z'))),
-      frame(g => (coin(g, 'dim'), eyesAsleep(g), mouthSnore(g), set(g, [[13, 0]], 'z'))),
+      frame('droop', g => { star(g, 'dim'); eyesAsleep(g); mouthSnore(g); set(g, [[12, 4]], 'z') }),
+      frame('droop', g => { star(g, 'dim'); eyesAsleep(g); mouthSnore(g); set(g, [[13, 2]], 'z') }),
+      frame('droop', g => { star(g, 'dim'); eyesAsleep(g); mouthSnore(g); set(g, [[14, 0]], 'z') }),
     ],
   },
   cozy: {
     fps: 4,
     frames: [
-      frame(g => (coin(g, 'heart'), eyesHappy(g), mouthSmile(g), fluffyCheeks(g), heart(g, 12, 3))),
-      frame(g => (set(g, [[7, 3]], null), coin(g, 'full', 1), eyesHappy(g), mouthGrin(g), fluffyCheeks(g), heart(g, 13, 1))),
-      frame(g => (coin(g, 'heart'), eyesHappy(g), mouthSmile(g), fluffyCheeks(g), heart(g, 12, 0))),
+      frame('normal', g => { star(g, 'heart'); eyesHappy(g); mouthSmile(g); fluffyCheeks(g); heart(g, 13, 4) }),
+      frame('normal', g => { star(g, 'heart', 1); eyesHappy(g); mouthGrin(g); fluffyCheeks(g); heart(g, 13, 2) }),
+      frame('normal', g => { star(g, 'heart'); eyesHappy(g); mouthSmile(g); fluffyCheeks(g); heart(g, 13, 0) }),
     ],
   },
 }
@@ -250,22 +269,29 @@ export function base64(bytes: Uint8Array): string {
   return out
 }
 
-/** One frame as RasterProps.cells: 16×8 cells of [codePoint, fg, bg], little-endian u32. */
+/** 16×16 Grid → 16×8 Raster cells, each cell a half-block or space. */
 export function rasterCells(g: Grid, theme: LensTheme = 'teal'): string {
   const pal = THEME_PALETTES[theme] ?? PALETTE
   const words = new Uint32Array(RASTER_COLUMNS * RASTER_ROWS * 3)
   let i = 0
   for (let row = 0; row < RASTER_ROWS; row += 1) {
-    for (let x = 0; x < RASTER_COLUMNS; x += 1) {
-      const top = g[row * 2]![x]
-      const bottom = g[row * 2 + 1]![x]
+    const yTop = row * 2
+    const yBottom = yTop + 1
+    for (let col = 0; col < RASTER_COLUMNS; col += 1) {
+      const top = g[yTop]![col]
+      const bottom = g[yBottom]![col]
       let cp = SPACE
       let fg = DEFAULT_COLOR
       let bg = DEFAULT_COLOR
       if (top && bottom) {
-        cp = UPPER
-        fg = pal[top]
-        bg = pal[bottom]
+        if (top === bottom) {
+          cp = SPACE
+          bg = pal[top]
+        } else {
+          cp = UPPER
+          fg = pal[top]
+          bg = pal[bottom]
+        }
       } else if (top) {
         cp = UPPER
         fg = pal[top]
