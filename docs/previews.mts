@@ -856,13 +856,13 @@ const html = `<!DOCTYPE html>
   <script>
     const SPRITES = ${JSON.stringify(spriteMap)};
     const FACES = {
-      idle: '(=^･ω･^=)',
-      happy: '(=^‿^=)✧',
-      cozy: '( ˘ ◡ ˘ )♡',
-      thinking: '(•ﻌ•)?',
-      worried: '(•︵•;)',
-      alarmed: '(°□°;)!',
-      sleepy: '(=-ω-=)z'
+      idle: '[• ◡ •]',
+      happy: '[✧ ‿ ✧]',
+      cozy: '[♥ ‿ ♥]',
+      thinking: '[⌕ ~ ⌕]',
+      worried: '[• ︵ •]',
+      alarmed: '[! ▵ !]',
+      sleepy: '[- ◡ -]'
     };
     const I18N = {
       mood: { idle: 'idle', happy: 'efficient', cozy: 'cozy & loved', thinking: 'thinking', worried: 'warning', alarmed: 'strong warning', sleepy: 'saved part expiring' },

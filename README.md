@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/lumi/happy.svg" width="112" height="112" alt="Lumi, the star-puff companion: a fluffy celestial cloud kitten with cute ears, rosy cheeks, and a floating lucky star">
+  <img src="docs/lumi/happy.svg" width="112" height="112" alt="Lumi, the Cyber-Lens Drone: a floating mechanical lens droid with glowing aperture optics, side stabilizer fins, and anti-gravity hover thrusters">
 </p>
 
 <h1 align="center">lumi-lens</h1>
@@ -121,19 +121,19 @@ Tabs also respond to keys `1`, `2`, `3` and `4` while the pane has focus.
 
 ### Lumi
 
-Lumi is an **original character made for this repo**: a fluffy celestial cloud kitten with soft ears, cute paws, rosy cheeks, and a floating lucky star that twinkles with your session's token telemetry. She is drawn completely in code in `src/ui/mascot.ts`, and you can dress her in four fluffy coats (`teal`, `sakura`, `lavender`, `matcha`).
+Lumi is an **original character made for this repo**: a floating cybernetic lens drone with glowing aperture optics, mechanical stabilizer winglets, and anti-gravity ion hover thrusters. She is drawn completely in code in `src/ui/mascot.ts`, and you can dress her in four sleek chassis finishes (`teal`, `sakura`, `lavender`, `matcha`).
 
 The moods, left to right in the gallery at the top:
 
 | Mood | When | What she does |
 |---|---|---|
-| idle | nothing notable | open eyes, blinks, floating star |
-| happy | efficient work: high cache hits, targeted searches, small edits | `^ ^` eyes, cheerful grin, cheeks, the star bounces |
-| cozy | petted via `/tokens pet` or the `Pet Lumi` button (30 s) | `˘ ◡ ˘` eyes, warm blush, floating pixel hearts |
-| thinking | a turn is running | glances up and around, tilted glance, star twinkles |
-| worried | a warning in the last 2 min, or context ≥ 70% | droopy ears, frown, blue sweat drop |
-| alarmed | a strong warning, or context ≥ 85% | perked ears, wide eyes, `O` mouth, red star, small shiver |
-| sleepy | idle long enough for the cache to cool | lids shut, ears tucked, sleeping star, bubbles drift up |
+| idle | nothing notable | steady focus glints, calm optic blinks, ion thrusters hum |
+| happy | efficient work: high cache hits, targeted searches, small edits | aperture blossom, sparkling target reticle, winglets perked up |
+| cozy | petted via `/tokens pet` or the `Pet Lumi` button (30 s) | holographic heart inside lens, warm blush, thruster boost |
+| thinking | a turn is running | analytical scanner beam sweeps left to right across optic glass |
+| worried | a warning in the last 2 min, or context ≥ 70% | droopy winglets, amber calibration warning ring, diagnostic spark |
+| alarmed | a strong warning, or context ≥ 85% | red hazard strobe beacon, red hazard core, high-frequency alarm jitter |
+| sleepy | idle long enough for the cache to cool | low-power standby phosphor dot, dimmed thrusters, telemetry packets drift up |
 
 How she's drawn on each surface:
 - **Terminal:** a 16×8 grid of half-block characters, repainted with `$.ui.blit` only when the frame changes (2–6 fps, never above 8). Nothing else in the pane is redrawn.

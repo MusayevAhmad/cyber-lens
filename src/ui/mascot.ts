@@ -1,13 +1,13 @@
-// "Lumi the Star-Puff", lumi-lens's mascot: an ORIGINAL fluffy celestial character.
-// A chubby cloud kitten with soft ears, little paws, rosy cheeks, and a floating
-// lucky star that twinkles and pulses with your session's token telemetry.
+// "Lumi the Cyber-Lens Drone", lumi-lens's mascot: an ORIGINAL floating
+// mechanical lens droid with glowing aperture optics, side stabilizer winglets,
+// and anti-gravity ion hover thrusters.
 //
-// Frames are 16×16 pixel grids built in code from one fluffy body and per-mood face
-// overlays. They render three ways:
+// Frames are 16×16 pixel grids built in code from one aerodynamic hull and per-mood
+// aperture overlays. They render three ways:
 //   - terminal: a 16×8 Raster of half blocks (▀/▄), two pixels per cell,
 //     animated by $.ui.blit (no re-render);
 //   - desktop / vscode / mobile: one SVG whose frames step by SMIL;
-//   - everywhere: a text label (mood.* in i18n) beside it.
+//     everywhere: a text label (mood.* in i18n) beside it.
 // Pure: no `$`.
 
 import type { LensMood, LensTheme } from '../../types'
@@ -20,19 +20,19 @@ type Px = keyof typeof PALETTE
 type Grid = (Px | null)[][]
 export type PaletteMap = Record<Px, number>
 
-/** Default minty celestial palette (0x00RRGGBB). */
+/** Default mint-cyan aerospace palette (0x00RRGGBB). */
 export const PALETTE = {
-  o: 0x1e4d57, // dark teal outline
-  b: 0x3cc6b4, // fluffy body
-  l: 0xa8f0e4, // soft highlight
-  w: 0xffffff, // eye sparkle & star core
-  p: 0x1b1b2f, // eyes, pupils, mouth
-  c: 0xf28ba8, // inner ears, cheeks & floating heart
-  g: 0xf5c542, // lucky star
-  G: 0xc9971c, // warm gold / dim star
-  r: 0xe5484d, // alert star
-  s: 0x7cc7ff, // sweat drop
-  z: 0xe8e8f0, // sleep bubbles
+  o: 0x1e293b, // dark slate titanium outline
+  b: 0x3cc6b4, // mint-cyan aero-hull plating
+  l: 0xa8f0e4, // hull specular sheen & highlight
+  w: 0xffffff, // optic laser glint & focus point
+  p: 0x020617, // deep optic glass cavity
+  c: 0xf28ba8, // holographic heart & telemetry
+  g: 0x38bdf8, // glowing aperture iris reticle
+  G: 0xc9971c, // amber diagnostic indicator
+  r: 0xe5484d, // red alert hazard laser
+  s: 0x7cc7ff, // ion thruster exhaust
+  z: 0xe8e8f0, // standby telemetry phosphor
 } as const
 
 /** Fluffy coat palettes: teal (mint), sakura (pink), lavender (lilac), matcha (green). */
@@ -44,6 +44,9 @@ export const THEME_PALETTES: Record<LensTheme, PaletteMap> = {
     b: 0xf7a1c4,
     l: 0xffe0ee,
     c: 0xff5c8a,
+    g: 0xf7a1c4,
+    G: 0xdb2777,
+    s: 0xff5c8a,
   },
   lavender: {
     ...PALETTE,
@@ -51,6 +54,9 @@ export const THEME_PALETTES: Record<LensTheme, PaletteMap> = {
     b: 0xb695f8,
     l: 0xeaddff,
     c: 0xf48fb1,
+    g: 0xb695f8,
+    G: 0x6366f1,
+    s: 0xb695f8,
   },
   matcha: {
     ...PALETTE,
@@ -58,6 +64,9 @@ export const THEME_PALETTES: Record<LensTheme, PaletteMap> = {
     b: 0x7ed99a,
     l: 0xd4fae0,
     c: 0xf598b2,
+    g: 0x7ed99a,
+    G: 0x16a34a,
+    s: 0x7ed99a,
   },
 }
 
@@ -71,105 +80,89 @@ const set = (g: Grid, pts: readonly (readonly [number, number])[], px: Px | null
   for (const [x, y] of pts) if (x >= 0 && x < SIZE && y >= 0 && y < SIZE) g[y]![x] = px
 }
 
-function baseBody(earStyle: 'normal' | 'droop' | 'perked' = 'normal'): Grid {
+function baseDrone(finMode: 'normal' | 'up' | 'down' = 'normal'): Grid {
   const g = empty()
-  // Cute fluffy ears
-  if (earStyle === 'normal') {
-    set(g, [[3, 2], [4, 2], [2, 3], [5, 3], [2, 4], [5, 4]], 'o')
-    set(g, [[3, 3], [4, 3], [3, 4], [4, 4]], 'c')
-    set(g, [[11, 2], [12, 2], [10, 3], [13, 3], [10, 4], [13, 4]], 'o')
-    set(g, [[11, 3], [12, 3], [11, 4], [12, 4]], 'c')
-  } else if (earStyle === 'droop') {
-    set(g, [[2, 3], [3, 3], [1, 4], [4, 4], [1, 5], [4, 5]], 'o')
-    set(g, [[2, 4], [3, 4], [2, 5], [3, 5]], 'c')
-    set(g, [[12, 3], [13, 3], [11, 4], [14, 4], [11, 5], [14, 5]], 'o')
-    set(g, [[12, 4], [13, 4], [12, 5], [13, 5]], 'c')
-  } else if (earStyle === 'perked') {
-    set(g, [[3, 1], [4, 1], [2, 2], [5, 2], [2, 3], [5, 3], [2, 4], [5, 4]], 'o')
-    set(g, [[3, 2], [4, 2], [3, 3], [4, 3]], 'c')
-    set(g, [[11, 1], [12, 1], [10, 2], [13, 2], [10, 3], [13, 3], [10, 4], [13, 4]], 'o')
-    set(g, [[11, 2], [12, 2], [11, 3], [12, 3]], 'c')
+
+  // Top optical sensor beacon
+  set(g, [[7, 0], [8, 0]], 'w')
+  set(g, [[7, 1], [8, 1]], 'o')
+  set(g, [[6, 2], [7, 2], [8, 2], [9, 2]], 'o')
+
+  // Main aero-chassis sphere
+  for (let x = 4; x <= 11; x += 1) g[3]![x] = x === 4 || x === 11 ? 'o' : 'b'
+  g[3]![6] = 'l'
+  g[3]![7] = 'l'
+
+  for (let x = 3; x <= 12; x += 1) g[4]![x] = x === 3 || x === 12 ? 'o' : 'b'
+  g[4]![5] = 'l'
+  g[4]![6] = 'l'
+
+  for (let x = 2; x <= 13; x += 1) {
+    if (x === 2 || x === 13) g[5]![x] = 'o'
+    else if (x >= 5 && x <= 10) g[5]![x] = 'o'
+    else g[5]![x] = 'b'
   }
 
-  // Fluffy marshmallow head and chubby body
-  const spans = [
-    [5, 2, 13],
-    [6, 1, 14],
-    [7, 1, 14],
-    [8, 0, 15],
-    [9, 0, 15],
-    [10, 0, 15],
-    [11, 1, 14],
-    [12, 1, 14],
-    [13, 2, 13],
-    [14, 3, 12],
-  ] as const
-
-  for (const [y, x0, x1] of spans) {
-    for (let x = x0; x <= x1; x += 1) {
-      const isEdge = x === x0 || x === x1 || y === 14 || (y === 5 && x >= 6 && x <= 9)
-      g[y]![x] = isEdge ? 'o' : 'b'
-    }
+  for (let y = 6; y <= 9; y += 1) {
+    g[y]![2] = 'o'
+    g[y]![3] = 'b'
+    g[y]![4] = 'o'
+    for (let x = 5; x <= 10; x += 1) g[y]![x] = 'p'
+    g[y]![11] = 'o'
+    g[y]![12] = 'b'
+    g[y]![13] = 'o'
   }
 
-  // Little cute front paws resting at the bottom
-  for (let x = 4; x <= 6; x += 1) g[15]![x] = 'o'
-  for (let x = 9; x <= 11; x += 1) g[15]![x] = 'o'
-  g[14]![5] = 'b'
-  g[14]![10] = 'b'
+  for (let x = 2; x <= 13; x += 1) {
+    if (x === 2 || x === 13) g[10]![x] = 'o'
+    else if (x >= 5 && x <= 10) g[10]![x] = 'o'
+    else g[10]![x] = 'b'
+  }
 
-  // Soft forehead shine
-  g[6]![7] = 'l'
-  g[6]![8] = 'l'
+  for (let x = 3; x <= 12; x += 1) g[11]![x] = x === 3 || x === 12 ? 'o' : 'b'
+  for (let x = 4; x <= 11; x += 1) g[12]![x] = 'o'
+
+  if (finMode === 'normal') {
+    set(g, [[1, 6], [0, 7], [1, 7], [0, 8], [1, 8]], 'o')
+    g[7]![1] = 'b'
+    g[8]![1] = 'l'
+    set(g, [[14, 6], [14, 7], [15, 7], [14, 8], [15, 8]], 'o')
+    g[7]![14] = 'b'
+    g[8]![14] = 'l'
+  } else if (finMode === 'up') {
+    set(g, [[0, 5], [1, 5], [0, 6], [1, 6], [1, 7]], 'o')
+    g[5]![1] = 'l'
+    g[6]![1] = 'b'
+    set(g, [[14, 5], [15, 5], [14, 6], [15, 6], [14, 7]], 'o')
+    g[5]![14] = 'l'
+    g[6]![14] = 'b'
+  } else if (finMode === 'down') {
+    set(g, [[1, 7], [0, 8], [1, 8], [0, 9], [1, 9]], 'o')
+    g[8]![1] = 'b'
+    g[9]![1] = 'l'
+    set(g, [[14, 7], [14, 8], [15, 8], [14, 9], [15, 9]], 'o')
+    g[8]![14] = 'b'
+    g[9]![14] = 'l'
+  }
+
+  set(g, [[5, 13], [6, 13], [9, 13], [10, 13]], 'o')
   return g
 }
 
-/** Floating celestial lucky star. */
-function star(g: Grid, kind: 'full' | 'red' | 'dim' | 'heart' = 'full', drop = 0) {
-  const c: Px = kind === 'red' ? 'r' : kind === 'dim' ? 'G' : kind === 'heart' ? 'c' : 'g'
-  const core: Px = kind === 'dim' ? 'G' : kind === 'red' ? 'r' : kind === 'heart' ? 'l' : 'w'
-  set(g, [[7, 0 + drop], [8, 0 + drop]], c)
-  set(g, [[6, 1 + drop], [9, 1 + drop]], c)
-  set(g, [[7, 1 + drop], [8, 1 + drop]], core)
-  set(g, [[7, 2 + drop], [8, 2 + drop]], c)
-}
-
-const eyesOpen = (g: Grid, look: 'fwd' | 'upL' | 'upR' | 'wide') => {
-  if (look === 'wide') {
-    set(g, [[3, 8], [4, 8], [5, 8], [3, 9], [4, 9], [5, 9]], 'w')
-    set(g, [[4, 9]], 'p')
-    set(g, [[10, 8], [11, 8], [12, 8], [10, 9], [11, 9], [12, 9]], 'w')
-    set(g, [[11, 9]], 'p')
-  } else if (look === 'upL') {
-    set(g, [[4, 8], [5, 8], [4, 9], [5, 9], [10, 8], [11, 8], [10, 9], [11, 9]], 'p')
-    set(g, [[4, 8], [10, 8]], 'w')
-  } else if (look === 'upR') {
-    set(g, [[4, 8], [5, 8], [4, 9], [5, 9], [10, 8], [11, 8], [10, 9], [11, 9]], 'p')
-    set(g, [[5, 8], [11, 8]], 'w')
-  } else {
-    set(g, [[4, 8], [5, 8], [4, 9], [5, 9], [10, 8], [11, 8], [10, 9], [11, 9]], 'p')
-    set(g, [[4, 8], [10, 8]], 'w')
+function thrusters(g: Grid, power: 'normal' | 'boost' | 'dim' | 'flicker' = 'normal') {
+  if (power === 'normal') {
+    set(g, [[5, 14], [6, 14], [9, 14], [10, 14]], 's')
+    set(g, [[5, 15], [10, 15]], 'w')
+  } else if (power === 'boost') {
+    set(g, [[5, 14], [6, 14], [9, 14], [10, 14]], 'w')
+    set(g, [[4, 15], [5, 15], [6, 15], [9, 15], [10, 15], [11, 15]], 's')
+  } else if (power === 'dim') {
+    set(g, [[5, 14], [10, 14]], 's')
+  } else if (power === 'flicker') {
+    set(g, [[6, 14], [9, 14]], 's')
+    set(g, [[6, 15]], 'w')
   }
 }
-
-const eyesBlink = (g: Grid) => set(g, [[4, 9], [5, 9], [10, 9], [11, 9]], 'p')
-const eyesHappy = (g: Grid) => set(g, [[4, 8], [5, 8], [3, 9], [6, 9], [10, 8], [11, 8], [9, 9], [12, 9]], 'p')
-const eyesAsleep = (g: Grid) => set(g, [[3, 9], [4, 10], [5, 10], [6, 9], [9, 9], [10, 10], [11, 10], [12, 9]], 'p')
-const browsWorried = (g: Grid) => set(g, [[4, 7], [5, 7], [6, 6], [11, 7], [10, 7], [9, 6]], 'p')
-
-const mouthSmile = (g: Grid) => set(g, [[7, 11], [8, 11], [6, 12], [9, 12]], 'p')
-const mouthGrin = (g: Grid) => {
-  set(g, [[6, 11], [7, 11], [8, 11], [9, 11], [6, 12], [9, 12]], 'p')
-  set(g, [[7, 12], [8, 12]], 'c')
-}
-const mouthHmm = (g: Grid) => set(g, [[8, 12], [9, 12]], 'p')
-const mouthFrown = (g: Grid) => set(g, [[6, 12], [7, 11], [8, 11], [9, 12]], 'p')
-const mouthOpen = (g: Grid) => set(g, [[7, 11], [8, 11], [7, 12], [8, 12]], 'p')
-const mouthSnore = (g: Grid) => set(g, [[8, 12]], 'p')
-
-const cheeks = (g: Grid) => set(g, [[2, 10], [3, 10], [12, 10], [13, 10]], 'c')
-const fluffyCheeks = (g: Grid) => set(g, [[1, 10], [2, 10], [3, 10], [12, 10], [13, 10], [14, 10]], 'c')
-const heart = (g: Grid, x: number, y: number) => set(g, [[x, y], [x + 2, y], [x, y + 1], [x + 1, y + 1], [x + 2, y + 1], [x + 1, y + 2]], 'c')
 
 function shift(g: Grid, dx: number): Grid {
   const out = empty()
@@ -180,8 +173,8 @@ function shift(g: Grid, dx: number): Grid {
   return out
 }
 
-function frame(earStyle: 'normal' | 'droop' | 'perked', build: (g: Grid) => void): Grid {
-  const g = baseBody(earStyle)
+function frame(finMode: 'normal' | 'up' | 'down', build: (g: Grid) => void): Grid {
+  const g = baseDrone(finMode)
   build(g)
   return g
 }
@@ -192,56 +185,148 @@ export const SPRITES: Record<LensMood, Sprite> = {
   idle: {
     fps: 2,
     frames: [
-      frame('normal', g => { star(g, 'full'); eyesOpen(g, 'fwd'); mouthSmile(g); cheeks(g) }),
-      frame('normal', g => { star(g, 'full'); eyesOpen(g, 'fwd'); mouthSmile(g); cheeks(g) }),
-      frame('normal', g => { star(g, 'full'); eyesOpen(g, 'fwd'); mouthSmile(g); cheeks(g) }),
-      frame('normal', g => { star(g, 'full'); eyesBlink(g); mouthSmile(g); cheeks(g) }),
+      frame('normal', g => {
+        thrusters(g, 'normal')
+        set(g, [[6, 7], [9, 7]], 'w')
+        set(g, [[7, 7], [8, 7], [6, 8], [7, 8], [8, 8], [9, 8]], 'g')
+      }),
+      frame('normal', g => {
+        thrusters(g, 'flicker')
+        set(g, [[6, 7], [9, 7]], 'w')
+        set(g, [[7, 7], [8, 7], [6, 8], [7, 8], [8, 8], [9, 8]], 'g')
+      }),
+      frame('normal', g => {
+        thrusters(g, 'normal')
+        set(g, [[6, 7], [9, 7]], 'w')
+        set(g, [[7, 7], [8, 7], [6, 8], [7, 8], [8, 8], [9, 8]], 'g')
+      }),
+      frame('normal', g => {
+        thrusters(g, 'normal')
+        set(g, [[6, 8], [7, 8], [8, 8], [9, 8]], 'g')
+      }),
     ],
   },
   happy: {
     fps: 3,
     frames: [
-      frame('normal', g => { star(g, 'full'); eyesHappy(g); mouthGrin(g); fluffyCheeks(g) }),
-      frame('normal', g => { star(g, 'full', 1); eyesHappy(g); mouthGrin(g); fluffyCheeks(g) }),
+      frame('up', g => {
+        thrusters(g, 'boost')
+        set(g, [[7, 6], [8, 6], [6, 7], [9, 7], [6, 8], [9, 8], [7, 9], [8, 9]], 'g')
+        set(g, [[7, 7], [8, 7], [7, 8], [8, 8]], 'w')
+      }),
+      frame('up', g => {
+        thrusters(g, 'normal')
+        set(g, [[7, 6], [8, 6], [6, 7], [9, 7], [6, 8], [9, 8], [7, 9], [8, 9]], 'w')
+        set(g, [[7, 7], [8, 7], [7, 8], [8, 8]], 'g')
+      }),
     ],
   },
   thinking: {
     fps: 4,
     frames: [
-      frame('normal', g => { star(g, 'full'); eyesOpen(g, 'upL'); mouthHmm(g); cheeks(g) }),
-      frame('normal', g => { star(g, 'dim'); eyesOpen(g, 'upL'); mouthHmm(g); cheeks(g) }),
-      frame('normal', g => { star(g, 'full'); eyesOpen(g, 'upR'); mouthHmm(g); cheeks(g) }),
-      frame('normal', g => { star(g, 'dim'); eyesOpen(g, 'upR'); mouthHmm(g); cheeks(g) }),
+      frame('normal', g => {
+        thrusters(g, 'normal')
+        set(g, [[5, 6], [5, 7], [5, 8], [5, 9]], 'g')
+        set(g, [[7, 7], [8, 7]], 'w')
+      }),
+      frame('normal', g => {
+        thrusters(g, 'normal')
+        set(g, [[6, 6], [6, 7], [6, 8], [6, 9]], 'g')
+        set(g, [[7, 7], [8, 7]], 'w')
+      }),
+      frame('normal', g => {
+        thrusters(g, 'normal')
+        set(g, [[9, 6], [9, 7], [9, 8], [9, 9]], 'g')
+        set(g, [[7, 7], [8, 7]], 'w')
+      }),
+      frame('normal', g => {
+        thrusters(g, 'normal')
+        set(g, [[10, 6], [10, 7], [10, 8], [10, 9]], 'g')
+        set(g, [[7, 7], [8, 7]], 'w')
+      }),
     ],
   },
   worried: {
     fps: 3,
     frames: [
-      frame('droop', g => { star(g, 'full'); eyesOpen(g, 'fwd'); browsWorried(g); mouthFrown(g); set(g, [[14, 6], [14, 7]], 's') }),
-      frame('droop', g => { star(g, 'full'); eyesOpen(g, 'fwd'); browsWorried(g); mouthFrown(g); set(g, [[14, 7], [14, 8]], 's') }),
+      frame('down', g => {
+        thrusters(g, 'dim')
+        set(g, [[6, 7], [7, 6], [8, 6], [9, 7], [6, 8], [9, 8], [7, 9], [8, 9]], 'G')
+        set(g, [[7, 8], [8, 8]], 'g')
+        set(g, [[14, 4], [14, 5]], 's')
+      }),
+      frame('down', g => {
+        thrusters(g, 'flicker')
+        set(g, [[6, 7], [7, 6], [8, 6], [9, 7], [6, 8], [9, 8], [7, 9], [8, 9]], 'g')
+        set(g, [[7, 8], [8, 8]], 'G')
+        set(g, [[14, 5], [14, 6]], 's')
+      }),
     ],
   },
   alarmed: {
     fps: 6,
     frames: [
-      frame('perked', g => { star(g, 'red'); eyesOpen(g, 'wide'); mouthOpen(g) }),
-      shift(frame('perked', g => { star(g, 'full'); eyesOpen(g, 'wide'); mouthOpen(g) }), 1),
+      frame('up', g => {
+        thrusters(g, 'boost')
+        set(g, [[7, 6], [8, 6]], 'r')
+        set(g, [[6, 7], [7, 7], [8, 7], [9, 7]], 'r')
+        set(g, [[5, 8], [6, 8], [7, 8], [8, 8], [9, 8], [10, 8]], 'r')
+        set(g, [[7, 7], [8, 7]], 'w')
+        g[0]![7] = 'r'
+        g[0]![8] = 'r'
+      }),
+      shift(frame('up', g => {
+        thrusters(g, 'boost')
+        set(g, [[7, 6], [8, 6]], 'r')
+        set(g, [[6, 7], [7, 7], [8, 7], [9, 7]], 'r')
+        set(g, [[5, 8], [6, 8], [7, 8], [8, 8], [9, 8], [10, 8]], 'r')
+        set(g, [[7, 7], [8, 7]], 'w')
+        g[0]![7] = 'w'
+        g[0]![8] = 'w'
+      }), 1),
     ],
   },
   sleepy: {
     fps: 2,
     frames: [
-      frame('droop', g => { star(g, 'dim'); eyesAsleep(g); mouthSnore(g); set(g, [[12, 4]], 'z') }),
-      frame('droop', g => { star(g, 'dim'); eyesAsleep(g); mouthSnore(g); set(g, [[13, 2]], 'z') }),
-      frame('droop', g => { star(g, 'dim'); eyesAsleep(g); mouthSnore(g); set(g, [[14, 0]], 'z') }),
+      frame('down', g => {
+        thrusters(g, 'dim')
+        set(g, [[7, 8], [8, 8]], 'z')
+        set(g, [[13, 3]], 'z')
+      }),
+      frame('down', g => {
+        thrusters(g, 'dim')
+        set(g, [[7, 8], [8, 8]], 'z')
+        set(g, [[14, 2]], 'z')
+      }),
+      frame('down', g => {
+        thrusters(g, 'dim')
+        set(g, [[7, 8], [8, 8]], 'z')
+        set(g, [[14, 0]], 'z')
+      }),
     ],
   },
   cozy: {
     fps: 4,
     frames: [
-      frame('normal', g => { star(g, 'heart'); eyesHappy(g); mouthSmile(g); fluffyCheeks(g); heart(g, 13, 4) }),
-      frame('normal', g => { star(g, 'heart', 1); eyesHappy(g); mouthGrin(g); fluffyCheeks(g); heart(g, 13, 2) }),
-      frame('normal', g => { star(g, 'heart'); eyesHappy(g); mouthSmile(g); fluffyCheeks(g); heart(g, 13, 0) }),
+      frame('up', g => {
+        thrusters(g, 'normal')
+        set(g, [[6, 7], [7, 7], [8, 7], [9, 7], [6, 8], [7, 8], [8, 8], [9, 8], [7, 9], [8, 9]], 'c')
+        set(g, [[7, 7], [8, 7]], 'w')
+        set(g, [[13, 4]], 'c')
+      }),
+      frame('up', g => {
+        thrusters(g, 'boost')
+        set(g, [[6, 6], [7, 6], [8, 6], [9, 6], [6, 7], [7, 7], [8, 7], [9, 7], [7, 8], [8, 8]], 'c')
+        set(g, [[7, 6], [8, 6]], 'w')
+        set(g, [[13, 2]], 'c')
+      }),
+      frame('up', g => {
+        thrusters(g, 'normal')
+        set(g, [[6, 7], [7, 7], [8, 7], [9, 7], [6, 8], [7, 8], [8, 8], [9, 8], [7, 9], [8, 9]], 'c')
+        set(g, [[7, 7], [8, 7]], 'w')
+        set(g, [[13, 0]], 'c')
+      }),
     ],
   },
 }

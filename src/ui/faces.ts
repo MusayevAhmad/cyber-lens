@@ -5,11 +5,11 @@
 import type { LensMood } from '../../types'
 
 export const FACE: Record<LensMood, string> = {
-  idle: '(=^･ω･^=)',
-  happy: '(=^‿^=)✧',
-  thinking: '(•ﻌ•)?',
-  worried: '(•︵•;)',
-  alarmed: '(°□°;)!',
-  sleepy: '(=-ω-=)z',
-  cozy: '( ˘ ◡ ˘ )♡',
+  idle: '[• ◡ •]',
+  happy: '[✧ ‿ ✧]',
+  thinking: '[⌕ ~ ⌕]',
+  worried: '[• ︵ •]',
+  alarmed: '[! ▵ !]',
+  sleepy: '[- ◡ -]',
+  cozy: '[♥ ‿ ♥]',
 }
