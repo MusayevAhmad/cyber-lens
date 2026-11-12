@@ -1,0 +1,6 @@
+{
+  "name": "lumi-lens",
+  "description": "Lumi Lens: a read-only Claude Code mod that shows where tokens go, with tips and the Lumi pixel mascot.",
+  "owner": { "name": "Ahmad Musayev" },
+  "plugins": [{ "name": "token-lens", "source": "./" }]
+}
