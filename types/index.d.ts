@@ -77,7 +77,7 @@ export type LensView = {
 
 declare module 'claude-code' {
   interface PluginState {
-    'token-lens': {
+    'cyber-lens': {
       view: Shaped<LensView | null>
       tab: LensTab
     }

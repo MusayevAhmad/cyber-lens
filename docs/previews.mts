@@ -205,7 +205,7 @@ const html = `<!DOCTYPE html>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>token-lens 0.2 — Cozy Token Companion &amp; Live Simulator for Claude Code</title>
+  <title>cyber-lens 0.2 — Cyber Token Companion &amp; Live Simulator for Claude Code</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -691,22 +691,22 @@ const html = `<!DOCTYPE html>
     <div class="container nav-inner">
       <a href="#" class="brand">
         <span class="brand-icon" id="nav-mascot"></span>
-        <span>lumi-lens <span style="color:var(--muted);font-weight:400;">v0.2</span></span>
+        <span>cyber-lens <span style="color:var(--muted);font-weight:400;">v0.2</span></span>
       </a>
       <div class="nav-actions">
-        <button class="btn btn-pink" id="nav-pet-btn" type="button">Pet Lumi ♥ (<span id="nav-pet-count">3</span>)</button>
+        <button class="btn btn-pink" id="nav-pet-btn" type="button">Pet Drone ♥ (<span id="nav-pet-count">3</span>)</button>
       </div>
     </div>
   </nav>
 
   <header class="hero container">
     <span class="badge-pill">Claude Code 2.1.287+ · Read-Only Mod · Zero Token Overhead</span>
-    <h1 id="hero-title">See where your Claude Code tokens go, with Lumi.</h1>
+    <h1 id="hero-title">See where your Claude Code tokens go, with Cyber-Lens.</h1>
     <p id="hero-sub">
-      Live prompt-cache breakdowns, a 4th Pulse tab with context growth sparklines and cache savings, step-by-step plain-language tips, and an interactive pixel companion with 4 fluffy coat themes.
+      Live prompt-cache breakdowns, a 4th Pulse tab with context growth sparklines and cache savings, step-by-step plain-language tips, and an interactive Cyber-Lens Drone companion with 4 mecha themes.
     </p>
     <div class="install-bar mono">
-      <span id="install-cmd">/plugin install token-lens --marketplace MusayevAhmad/lumi-lens</span>
+      <span id="install-cmd">/plugin install cyber-lens --marketplace MusayevAhmad/cyber-lens</span>
       <button class="btn btn-primary" id="copy-btn" type="button">Copy</button>
     </div>
   </header>
@@ -798,7 +798,7 @@ const html = `<!DOCTYPE html>
     </section>
 
     <section class="section-header">
-      <h2>What's New in token-lens 0.2</h2>
+      <h2>What's New in cyber-lens 0.2</h2>
       <p style="color:var(--muted);">Inspired by the best community mods, built with zero external dependencies and strict privacy guarantees.</p>
     </section>
 
@@ -1167,7 +1167,7 @@ const html = `<!DOCTYPE html>
     });
 
     document.getElementById('copy-btn').addEventListener('click', () => {
-      navigator.clipboard?.writeText('/plugin install token-lens --marketplace MusayevAhmad/lumi-lens');
+      navigator.clipboard?.writeText('/plugin install cyber-lens --marketplace MusayevAhmad/cyber-lens');
       const btn = document.getElementById('copy-btn');
       btn.textContent = 'Copied!';
       setTimeout(() => { btn.textContent = 'Copy'; }, 1500);

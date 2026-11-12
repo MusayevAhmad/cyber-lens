@@ -1,12 +1,12 @@
 <p align="center">
-  <img src="docs/lumi/happy.svg" width="112" height="112" alt="Lumi, the Cyber-Lens Drone: a floating mechanical lens droid with glowing aperture optics, side stabilizer fins, and anti-gravity hover thrusters">
+  <img src="docs/lumi/happy.svg" width="112" height="112" alt="Cyber-Lens Drone: a floating mechanical lens droid with glowing aperture optics, side stabilizer fins, and anti-gravity hover thrusters">
 </p>
 
-<h1 align="center">lumi-lens</h1>
+<h1 align="center">cyber-lens</h1>
 
 <p align="center">
   <b>See where your Claude Code tokens go, in plain words.</b><br>
-  A <b>read-only</b> mod: live numbers, step-by-step tips when something wastes tokens, and <b>Lumi</b>, a pixel mascot whose mood follows your session.
+  A <b>read-only</b> mod: live numbers, step-by-step tips when something wastes tokens, and an interactive <b>Cyber-Lens Drone</b> whose aperture optics and mood follow your session.
 </p>
 
 <p align="center">
@@ -14,34 +14,34 @@
 </p>
 
 <p align="center">
-  <img src="docs/preview-live.svg" width="820" alt="The token-lens pane, Live tab: Lumi smiling beside a bar showing the conversation 52% full, then the last message broken down in plain words: 104k reused cheaply, 259 saved for next time, 2 new, 705 in Claude's answer, reused share 99% (good)">
+  <img src="docs/preview-live.svg" width="820" alt="The cyber-lens pane, Live tab: Cyber-Lens Drone hovering beside a bar showing the conversation 52% full, then the last message broken down in plain words: 104k reused cheaply, 259 saved for next time, 2 new, 705 in Claude's answer, reused share 99% (good)">
 </p>
 
 <table align="center">
   <tr>
-    <td align="center"><img src="docs/lumi/idle.svg" width="64" height="64" alt="Lumi idle"><br><sub>idle</sub></td>
-    <td align="center"><img src="docs/lumi/happy.svg" width="64" height="64" alt="Lumi happy"><br><sub>happy</sub></td>
-    <td align="center"><img src="docs/lumi/cozy.svg" width="64" height="64" alt="Lumi cozy"><br><sub>cozy</sub></td>
-    <td align="center"><img src="docs/lumi/thinking.svg" width="64" height="64" alt="Lumi thinking"><br><sub>thinking</sub></td>
-    <td align="center"><img src="docs/lumi/worried.svg" width="64" height="64" alt="Lumi worried"><br><sub>worried</sub></td>
-    <td align="center"><img src="docs/lumi/alarmed.svg" width="64" height="64" alt="Lumi alarmed"><br><sub>alarmed</sub></td>
-    <td align="center"><img src="docs/lumi/sleepy.svg" width="64" height="64" alt="Lumi sleepy"><br><sub>sleepy</sub></td>
+    <td align="center"><img src="docs/lumi/idle.svg" width="64" height="64" alt="Drone idle"><br><sub>idle</sub></td>
+    <td align="center"><img src="docs/lumi/happy.svg" width="64" height="64" alt="Drone happy"><br><sub>happy</sub></td>
+    <td align="center"><img src="docs/lumi/cozy.svg" width="64" height="64" alt="Drone cozy"><br><sub>cozy</sub></td>
+    <td align="center"><img src="docs/lumi/thinking.svg" width="64" height="64" alt="Drone thinking"><br><sub>thinking</sub></td>
+    <td align="center"><img src="docs/lumi/worried.svg" width="64" height="64" alt="Drone worried"><br><sub>worried</sub></td>
+    <td align="center"><img src="docs/lumi/alarmed.svg" width="64" height="64" alt="Drone alarmed"><br><sub>alarmed</sub></td>
+    <td align="center"><img src="docs/lumi/sleepy.svg" width="64" height="64" alt="Drone sleepy"><br><sub>sleepy</sub></td>
   </tr>
 </table>
 
 <table align="center">
   <tr>
-    <td align="center"><img src="docs/lumi/theme-teal.svg" width="56" height="56" alt="Lumi Teal"><br><sub>Lumi Teal</sub></td>
-    <td align="center"><img src="docs/lumi/theme-sakura.svg" width="56" height="56" alt="Sakura Mochi"><br><sub>Sakura Mochi</sub></td>
-    <td align="center"><img src="docs/lumi/theme-lavender.svg" width="56" height="56" alt="Lavender Cloud"><br><sub>Lavender Cloud</sub></td>
-    <td align="center"><img src="docs/lumi/theme-matcha.svg" width="56" height="56" alt="Matcha Latte"><br><sub>Matcha Latte</sub></td>
+    <td align="center"><img src="docs/lumi/theme-teal.svg" width="56" height="56" alt="Cyber Mint"><br><sub>Cyber Mint</sub></td>
+    <td align="center"><img src="docs/lumi/theme-sakura.svg" width="56" height="56" alt="Sakura Neon"><br><sub>Sakura Neon</sub></td>
+    <td align="center"><img src="docs/lumi/theme-lavender.svg" width="56" height="56" alt="Nebula Void"><br><sub>Nebula Void</sub></td>
+    <td align="center"><img src="docs/lumi/theme-matcha.svg" width="56" height="56" alt="Tactical Emerald"><br><sub>Tactical Emerald</sub></td>
   </tr>
 </table>
 
 It never changes what Claude Code does. It never calls a model, never adds anything to Claude's context, never touches the system prompt, and makes no network, process or file-system calls.
 
 - **Requires Claude Code 2.1.287 or later** (mods GA). Built and tested on **2.1.317**.
-- Older builds don't run mods at all, so on them token-lens loads nothing and changes nothing.
+- Older builds don't run mods at all, so on them cyber-lens loads nothing and changes nothing.
 - No manifest field can pin a minimum version. The requirement is stated here and in the plugin description.
 
 ---
@@ -51,21 +51,21 @@ It never changes what Claude Code does. It never calls a model, never adds anyth
 At the prompt of a Claude Code terminal session:
 
 ```
-/plugin install token-lens --marketplace MusayevAhmad/lumi-lens
+/plugin install cyber-lens --marketplace MusayevAhmad/cyber-lens
 ```
 
 Answer `y` to add the marketplace, then pick a scope (user is first). From a shell:
 
 ```bash
-claude plugin install token-lens --marketplace MusayevAhmad/lumi-lens
+claude plugin install cyber-lens --marketplace MusayevAhmad/cyber-lens
 ```
 
-In the desktop app, where `/plugin` doesn't run: click **+** next to the prompt box, then **Plugins**, then **Add marketplace** with `MusayevAhmad/lumi-lens`, then **Add plugin**.
+In the desktop app, where `/plugin` doesn't run: click **+** next to the prompt box, then **Plugins**, then **Add marketplace** with `MusayevAhmad/cyber-lens`, then **Add plugin**.
 
 From a local folder, for one session:
 
 ```bash
-claude --plugin-dir /path/to/token-lens
+claude --plugin-dir /path/to/cyber-lens
 ```
 
 Where no flag can be given (a session the desktop app starts), set `CLAUDE_CODE_PLUGIN_DIRS` to the folder's absolute path. You can set it in your environment or in the `env` block of `~/.claude/settings.json`.
@@ -198,7 +198,7 @@ Each rule is a heuristic, not a verdict. Thresholds are configurable.
 
 **Positive signals** make Lumi happy: a cache hit ratio ≥ 0.8, targeted searches (Grep/Glob/LSP, or Bash `rg`/`grep`/`find`) with small results, and small successful edits.
 
-Grep and Glob are not separate tools on the native macOS build, so searches arrive as Bash commands. token-lens reads only the command's first word to classify the call, and keeps none of it.
+Grep and Glob are not separate tools on the native macOS build, so searches arrive as Bash commands. cyber-lens reads only the command's first word to classify the call, and keeps none of it.
 
 ---
 
@@ -207,14 +207,14 @@ Grep and Glob are not separate tools on the native macOS build, so searches arri
 Set these in `/config` (each is a row there) or in `~/.claude/settings.json`:
 
 ```json
-{ "pluginConfigs": { "token-lens": { "options": { "band": false, "max_toasts": 3 } } } }
+{ "pluginConfigs": { "cyber-lens": { "options": { "band": false, "max_toasts": 3 } } } }
 ```
 
 | Option | Default | Meaning |
 |---|---|---|
 | `theme` | `teal` | `teal`, `sakura`, `lavender`, or `matcha`. `/tokens theme` overrides it. |
 | `band` | `true` | Show the line above the prompt. |
-| `animation` | `true` | Animate Lumi. Off shows one still frame. |
+| `animation` | `true` | Animate drone. Off shows one still frame. |
 | `toasts` | `true` | Toast warnings. |
 | `max_toasts` | `5` | Toasts per session (0–50). |
 | `cooldown_minutes` | `10` | Minutes before the same rule may toast again. |
@@ -233,7 +233,7 @@ Out-of-range values are clamped and garbage falls back to the default. A bad set
 
 ## Safety
 
-Mods run unsandboxed with your permissions, so token-lens is written to be provably harmless.
+Mods run unsandboxed with your permissions, so cyber-lens is written to be provably harmless.
 
 - **Observe-only.**
   - `tool.call` awaits the engine's result and returns *that same object*. Its `.catch` hands back the same result and never refuses a call.
@@ -272,19 +272,19 @@ claude plugin validate .   # Claude Code 2.1.317; result: ✔ Validation passed
 Validating plugin manifest: .claude-plugin/plugin.json
 
   ❯ types ./types/index.d.ts declares on $: nothing (no EngineInterface member)
-  ❯ types ./types/index.d.ts declares state: token-lens.view, token-lens.tab
+  ❯ types ./types/index.d.ts declares state: cyber-lens.view, cyber-lens.tab
 
 Validating hooks: hooks/hooks.json
 
-  ❯ ./register.tsx hooks: session.start, session.end, classic.SessionStart, classic.PostCompact, classic.PostModelSwitch, session.measure, turn.start, turn.step, turn.complete, tool.call, command.run{command=tokens}, ui.render{component=Pane, requestId=token-lens}, ui.render{component=AbovePrompt}
+  ❯ ./register.tsx hooks: session.start, session.end, classic.SessionStart, classic.PostCompact, classic.PostModelSwitch, session.measure, turn.start, turn.step, turn.complete, tool.call, command.run{command=tokens}, ui.render{component=Pane, requestId=cyber-lens}, ui.render{component=AbovePrompt}
   ❯ ./register.tsx answers its own command: command.run{command=tokens}
   ❯ ./register.tsx gating hook with .catch: classic.SessionStart
   ❯ ./register.tsx gating hook with .catch: classic.PostCompact
   ❯ ./register.tsx gating hook with .catch: classic.PostModelSwitch
   ❯ ./register.tsx gating hook with .catch: tool.call
   ❯ ./register.tsx calls: $.clock.after, $.clock.every, $.clock.now, $.command.register, $.state.get, $.state.set, $.store.delete, $.store.get, $.store.set, $.ui.blit, $.ui.close, $.ui.log, $.ui.open, $.ui.panes, $.ui.resolve, $.ui.toast
-  ❯ ./register.tsx state writes: token-lens.tab, token-lens.view
-  ❯ ./register.tsx state reads: token-lens.tab, token-lens.view
+  ❯ ./register.tsx state writes: cyber-lens.tab, cyber-lens.view
+  ❯ ./register.tsx state reads: cyber-lens.tab, cyber-lens.view
 ```
 
 The calls are UI, command, store, clock and `$.state`. `$.state` is the session-local value the pane and band redraw from. There are no `model`, `http`, `process`, `fs`, `env`, `settings` or `session.*` calls.
@@ -304,7 +304,7 @@ The calls are UI, command, store, clock and `$.state`. `$.state` is the session-
 ### Disable it
 
 - **For a `--plugin-dir` run:** start Claude Code without the flag, or remove the folder from `CLAUDE_CODE_PLUGIN_DIRS`.
-- **When installed:** `/plugin`, then disable, or `claude plugin disable token-lens`.
+- **When installed:** `/plugin`, then disable, or `claude plugin disable cyber-lens`.
 - **Everything at once:** `claude --safe-mode`, or `CLAUDE_CODE_SAFE_MODE=1`, starts with all customisations off.
 - **Partly:** turn off `band`, `toasts` or `animation` in `/config`, or run `/tokens mute`.
 
@@ -313,7 +313,7 @@ The calls are UI, command, store, clock and `$.state`. `$.state` is the session-
 ## Limits and known gaps
 
 - **Per-tool numbers are estimates.** They come from size-weighted shares of each request's growth. Anything a tool adds that isn't visible in its result text counts as "other".
-- **Refused tool calls may not be counted.** A call refused by a permission rule or another plugin *before* it reaches the engine may never reach token-lens's `tool.call`, so it may not count toward R4.
+- **Refused tool calls may not be counted.** A call refused by a permission rule or another plugin *before* it reaches the engine may never reach cyber-lens's `tool.call`, so it may not count toward R4.
 - **Cache details:** the cache lifetime and the reason for a cache miss are not given to mods in general. The lifetime is assumed to be 5 min unless a model switch states it, and R5's cause is inferred.
 - **Context window:** assumed to be 200k until the first `session.measure`, marked `*` in the band and "assumed" in the pane.
 - **Subagent tokens per turn** are counted while a main turn runs. R8 uses them.
@@ -326,7 +326,7 @@ The calls are UI, command, store, clock and `$.state`. `$.state` is the session-
 ## Development
 
 ```
-token-lens/
+cyber-lens/
 ├── .claude-plugin/plugin.json   manifest, userConfig, icon.png
 ├── hooks/hooks.json             { "modules": ["./register.tsx"] }
 ├── hooks/register.tsx           wiring only: events → core → UI
@@ -358,16 +358,16 @@ claude plugin validate .
 - attribution fixtures: normal turn, parallel tools, compaction, `/clear`, error loop, subagents, missing usage, negative deltas
 - rules, mood (including `cozy` pet state), pulse analytics (sparkline, cache savings, efficiency grades, stickers), ledger and config
 - pass-through: `tool.call` and `turn.step` return the same results, including with fault injection
-- the pane (including the 4th Pulse tab, Pet Lumi button, `/tokens pet`, and `/tokens theme`) on terminal, desktop, vscode and mobile
+- the pane (including the 4th Pulse tab, Pet button, `/tokens pet`, and `/tokens theme`) on terminal, desktop, vscode and mobile
 - the band
 - toast limits
-- the mascot's frames, 4 coat themes, encoders and repaint rate
+- the mascot's frames, 4 chassis themes, encoders and repaint rate
 - privacy of what's stored
 - hardening of names that come from outside
 
 ### Manual smoke test
 
-1. Run `claude --plugin-dir /path/to/token-lens` and confirm there's no `token-lens:` error line.
+1. Run `claude --plugin-dir /path/to/cyber-lens` and confirm there's no `cyber-lens:` error line.
 2. Ask something that reads a file 3 times. The band should turn worried, and `/tokens` → Tips should show R1.
 3. Compare Live with `/usage` and the statusline. The last request's input, cache read, cache write and output should match exactly, and context % should match once the window is measured.
 4. Run `/compact`, then check that the next request isn't flagged and nothing negative appears. Repeat with `/clear` and `--resume`: the counters re-baseline.

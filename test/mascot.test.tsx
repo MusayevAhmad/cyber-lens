@@ -107,10 +107,10 @@ test('theme palettes: teal, sakura, lavender and matcha produce distinct SVGs an
 // ── through the engine ──────────────────────────────────────────────────
 
 const PANE = {
-  plugin: 'token-lens',
+  plugin: 'cyber-lens',
   component: 'Pane',
-  requestId: 'token-lens',
-  props: { title: 'Token lens', isFocused: true, bodyColumns: 60, placement: 'dock', scroll: { offset: 0, bodyRows: 40 }, view: {} },
+  requestId: 'cyber-lens',
+  props: { title: 'Cyber lens', isFocused: true, bodyColumns: 60, placement: 'dock', scroll: { offset: 0, bodyRows: 40 }, view: {} },
 } as const
 
 test('the pane draws a Raster on the terminal and an SVG elsewhere, always with words', async ($, on) => {

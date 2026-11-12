@@ -1,4 +1,4 @@
-// token-lens: thin wiring only. Events → core (src/core) → UI (src/ui).
+// cyber-lens: thin wiring only. Events → core (src/core) → UI (src/ui).
 //
 // OBSERVE-ONLY CONTRACT
 // - tool.call:  `const result = await next(e); analyze; return result` (the
@@ -28,7 +28,7 @@ import { toastLine } from '../src/ui/text'
 
 export const STORE_KEY = 'aggregates-v1'
 export const PREFS_KEY = 'prefs-v1'
-export const PANE_ID = 'token-lens'
+export const PANE_ID = 'cyber-lens'
 const TICK_MS = 15_000
 const FLUSH_EVERY_TICKS = 4
 const VIEW_DEBOUNCE_MS = 250
@@ -39,8 +39,8 @@ const TABS: readonly LensTab[] = ['live', 'tools', 'tips', 'pulse']
 
 // Bump the shape tag when LensView's fields change: a reload then declines
 // what older code stored.
-const viewAtom = atom({ plugin: 'token-lens', key: 'view' } as const, null, { shape: 'view-4' })
-const tabAtom = atom({ plugin: 'token-lens', key: 'tab' } as const, 'live')
+const viewAtom = atom({ plugin: 'cyber-lens', key: 'view' } as const, null, { shape: 'view-4' })
+const tabAtom = atom({ plugin: 'cyber-lens', key: 'tab' } as const, 'live')
 
 type Prefs = { theme?: Theme; muted?: boolean; pets?: number }
 
@@ -359,7 +359,7 @@ export const register: Register = (on, options) => {
         },
       }, lang)
     } catch {
-      return <Text dimColor>token-lens: view unavailable</Text>
+      return <Text dimColor>cyber-lens: view unavailable</Text>
     }
   })
 

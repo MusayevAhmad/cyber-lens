@@ -7,14 +7,14 @@ import type { Engine } from 'claude-code/testing'
 import { START, STEP, STEP_RESULT, cmd, drain, usage, world } from './world'
 
 const PANE = {
-  plugin: 'token-lens',
+  plugin: 'cyber-lens',
   component: 'Pane',
-  requestId: 'token-lens',
-  props: { title: 'Token lens', isFocused: true, bodyColumns: 60, placement: 'dock', scroll: { offset: 0, bodyRows: 40 }, view: {} },
+  requestId: 'cyber-lens',
+  props: { title: 'Cyber lens', isFocused: true, bodyColumns: 60, placement: 'dock', scroll: { offset: 0, bodyRows: 40 }, view: {} },
 } as const
 
 const BAND = {
-  plugin: 'token-lens',
+  plugin: 'cyber-lens',
   component: 'AbovePrompt',
   props: { hasSurvey: false, isWorking: false, maxRows: 6, bodyColumns: 100, scroll: { offset: 0, bodyRows: 6 }, view: {} },
 } as const
@@ -40,7 +40,7 @@ test('/tokens opens the pane (and only /tokens does)', async ($, on) => {
   await w.clock!.advance(60_000)
   expect(w.opened).toEqual([])
   await $.command.run(cmd(''))
-  expect(w.opened).toEqual(['token-lens'])
+  expect(w.opened).toEqual(['cyber-lens'])
 })
 
 test('the pane draws Live, Tools and Tips on every surface', async ($, on) => {

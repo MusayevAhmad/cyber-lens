@@ -14,7 +14,7 @@ export class Guard {
   private debugLines = 0
   failures = 0
 
-  constructor(private readonly prefix = 'token-lens') {}
+  constructor(private readonly prefix = 'cyber-lens') {}
 
   private report(log: Log, err: unknown): void {
     this.failures += 1

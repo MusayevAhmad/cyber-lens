@@ -1,6 +1,6 @@
 {
-  "name": "lumi-lens",
-  "description": "Lumi Lens: a read-only Claude Code mod that shows where tokens go, with tips and the Lumi pixel mascot.",
+  "name": "cyber-lens",
+  "description": "Cyber Lens: a read-only Claude Code mod that shows where tokens go, with tips and an interactive Cyber-Lens Drone mascot.",
   "owner": { "name": "Ahmad Musayev" },
-  "plugins": [{ "name": "token-lens", "source": "./" }]
+  "plugins": [{ "name": "cyber-lens", "source": "./" }]
 }

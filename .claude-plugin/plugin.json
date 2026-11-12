@@ -1,25 +1,27 @@
 {
-  "name": "token-lens",
+  "name": "cyber-lens",
   "version": "0.2.0",
-  "description": "Read-only token lens: live numbers, context sparkline, cache savings, cozy stickers, and Lumi, an interactive pixel mascot with 4 fluffy themes. Requires Claude Code 2.1.287+.",
+  "description": "Read-only cyber token lens: live telemetry, context sparkline, cache savings, efficiency stickers, and an interactive Cyber-Lens Drone mascot with 4 mecha themes. Requires Claude Code 2.1.287+.",
   "author": {
     "name": "Ahmad Musayev"
   },
   "license": "MIT",
   "keywords": [
     "tokens",
+    "cyber",
     "usage",
     "prompt-cache",
     "context",
     "mascot",
+    "drone",
     "mod"
   ],
   "types": "./types/index.d.ts",
   "userConfig": {
     "theme": {
       "type": "string",
-      "title": "Lumi theme",
-      "description": "Fluffy color palette for Lumi (teal, sakura, lavender, matcha). /tokens theme overrides it.",
+      "title": "Drone theme",
+      "description": "Chassis color palette for Cyber-Lens (teal, sakura, lavender, matcha). /tokens theme overrides it.",
       "options": [
         "teal",
         "sakura",
