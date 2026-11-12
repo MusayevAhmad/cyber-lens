@@ -16,16 +16,6 @@
   ],
   "types": "./types/index.d.ts",
   "userConfig": {
-    "language": {
-      "type": "string",
-      "title": "Language",
-      "description": "Language of the pane, band and toasts (en or az). /tokens lang overrides it.",
-      "options": [
-        "en",
-        "az"
-      ],
-      "default": "en"
-    },
     "theme": {
       "type": "string",
       "title": "Lumi theme",

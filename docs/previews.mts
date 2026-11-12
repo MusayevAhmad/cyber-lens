@@ -691,10 +691,9 @@ const html = `<!DOCTYPE html>
     <div class="container nav-inner">
       <a href="#" class="brand">
         <span class="brand-icon" id="nav-mascot"></span>
-        <span>token-lens <span style="color:var(--muted);font-weight:400;">v0.2</span></span>
+        <span>lumi-lens <span style="color:var(--muted);font-weight:400;">v0.2</span></span>
       </a>
       <div class="nav-actions">
-        <button class="btn" id="lang-toggle" type="button" aria-label="Switch language">EN / AZ</button>
         <button class="btn btn-pink" id="nav-pet-btn" type="button">Pet Lumi ♥ (<span id="nav-pet-count">3</span>)</button>
       </div>
     </div>
@@ -773,7 +772,7 @@ const html = `<!DOCTYPE html>
               <span class="dot" style="background:#28C840"></span>
             </div>
             <span class="mono" style="font-size:0.8rem;color:#8A90A6;" id="pane-window-title">Token lens — /tokens (Keys 1-4)</span>
-            <span class="mono" style="font-size:0.75rem;color:var(--teal);" id="pane-lang-indicator">lang: en</span>
+            <span class="mono" style="font-size:0.75rem;color:var(--sakura);">v0.2</span>
           </div>
           <div class="terminal-body">
             <div class="pane-tabs" role="tablist">
@@ -840,9 +839,9 @@ const html = `<!DOCTYPE html>
       </div>
 
       <div class="bento-card">
-        <h3>Bilingual: English &amp; Azərbaycan dili</h3>
+        <h3>Pure English &amp; Zero Setup</h3>
         <p>
-          Switch instantly with <code>/tokens lang az</code> or <code>/tokens lang en</code>. Every rule, step-by-step tip, mood, coat theme, and sticker is written in clear, human words with compile-time key parity.
+          Runs immediately out of the box with plain, clear words. Every rule, step-by-step tip, mood, coat theme, and sticker is designed to keep your focus directly on your code.
         </p>
       </div>
     </section>
@@ -857,71 +856,42 @@ const html = `<!DOCTYPE html>
   <script>
     const SPRITES = ${JSON.stringify(spriteMap)};
     const FACES = {
-      idle: '[•_•]',
-      happy: '[^‿^]',
-      cozy: '[♥‿♥]',
-      thinking: '[•_•]…',
-      worried: '[•︵•]',
-      alarmed: '[°□°]!',
-      sleepy: '[-_-]z'
+      idle: '(=^･ω･^=)',
+      happy: '(=^‿^=)✧',
+      cozy: '( ˘ ◡ ˘ )♡',
+      thinking: '(•ﻌ•)?',
+      worried: '(•︵•;)',
+      alarmed: '(°□°;)!',
+      sleepy: '(=-ω-=)z'
     };
     const I18N = {
-      en: {
-        mood: { idle: 'idle', happy: 'efficient', cozy: 'cozy & loved', thinking: 'thinking', worried: 'warning', alarmed: 'strong warning', sleepy: 'saved part expiring' },
-        theme: { teal: 'Teal Drop', sakura: 'Sakura Fluff', lavender: 'Cloud Lavender', matcha: 'Matcha Mint' },
-        tabs: ['1 Live', '2 Tools', '3 Tips', '4 Pulse'],
-        context: 'How full the conversation is',
-        contextHint: 'The fuller it gets, the more every message costs.',
-        lastTitle: 'Last message: {total} tokens in total',
-        lastRead: '• Reused from the saved part (cheap): {read}',
-        lastWrite: '• Saved for the next messages: {write}',
-        lastInput: '• New text (your message, results): {input}',
-        lastOutput: '• Claude’s answer: {output}',
-        reusedShare: 'Reused share: {hit}% ({grade})',
-        sessionTitle: 'This session in total',
-        sessionLine: 'Claude: {req} messages · {tot} tokens ({read} reused cheaply)',
-        pulseTitle: 'Session pulse & cozy score',
-        pulseScore: 'Efficiency: {score}/100 ({grade}) · Clean streak: {streak}',
-        sparkTitle: 'Conversation growth across recent messages',
-        savingsTitle: 'Saved by the prompt cache',
-        savingsLine: '~{saved} tokens saved by reusing the saved part ({hit}% reuse)',
-        stickersTitle: 'Cozy stickers unlocked ({n}/5)',
-        lifetimeTitle: 'All-time across sessions',
-        lifetimeLine: '{req} messages · {tot} tokens · ~{saved} saved by cache · {pets} headpats',
-        toolsTitle: 'Tokens per tool (estimated)',
-        topCalls: 'Costliest steps',
-        tipsNone: 'Nothing to improve right now.'
-      },
-      az: {
-        mood: { idle: 'gözləyir', happy: 'qənaətcil', cozy: 'sevimli və rahat', thinking: 'düşünür', worried: 'xəbərdarlıq', alarmed: 'ciddi xəbərdarlıq', sleepy: 'yadda saxlanan hissənin vaxtı bitir' },
-        theme: { teal: 'Firuzəyi Damla', sakura: 'Sakura Pambıq', lavender: 'Lavanda Bulud', matcha: 'Matça Nanə' },
-        tabs: ['1 Canlı', '2 Alətlər', '3 Məsləhətlər', '4 Nəbz'],
-        context: 'Söhbət nə qədər doludur',
-        contextHint: 'Söhbət doluduqca hər mesaj daha çox token işlədir.',
-        lastTitle: 'Son mesaj: cəmi {total} token',
-        lastRead: '• Yadda saxlanandan təkrar istifadə (ucuz): {read}',
-        lastWrite: '• Növbəti mesajlar üçün yadda saxlanan: {write}',
-        lastInput: '• Yeni mətn (sizin mesaj, nəticələr): {input}',
-        lastOutput: '• Claude-un cavabı: {output}',
-        reusedShare: 'Təkrar istifadə payı: {hit}% ({grade})',
-        sessionTitle: 'Bu sessiyada cəmi',
-        sessionLine: 'Claude: {req} mesaj · {tot} token ({read} ucuz təkrar istifadə)',
-        pulseTitle: 'Sessiya nəbzi və qənaət xalı',
-        pulseScore: 'Qənaət: {score}/100 ({grade}) · Təmiz seriya: {streak}',
-        sparkTitle: 'Son mesajlar üzrə söhbətin böyüməsi',
-        savingsTitle: 'Yadda saxlanan hissənin qənaəti',
-        savingsLine: 'Təkrar istifadə ilə ~{saved} token qənaət edildi ({hit}% pay)',
-        stickersTitle: 'Qazanılan sevimli stikerlər ({n}/5)',
-        lifetimeTitle: 'Bütün sessiyalar üzrə cəmi',
-        lifetimeLine: '{req} mesaj · {tot} token · ~{saved} keş qənaəti · {pets} sığal',
-        toolsTitle: 'Alətlərin işlətdiyi tokenlər (təxmini)',
-        topCalls: 'Ən çox token işlədən addımlar',
-        tipsNone: 'Hazırda yaxşılaşdırılacaq bir şey yoxdur.'
-      }
+      mood: { idle: 'idle', happy: 'efficient', cozy: 'cozy & loved', thinking: 'thinking', worried: 'warning', alarmed: 'strong warning', sleepy: 'saved part expiring' },
+      theme: { teal: 'Teal Drop', sakura: 'Sakura Fluff', lavender: 'Cloud Lavender', matcha: 'Matcha Mint' },
+      tabs: ['1 Live', '2 Tools', '3 Tips', '4 Pulse'],
+      context: 'How full the conversation is',
+      contextHint: 'The fuller it gets, the more every message costs.',
+      lastTitle: 'Last message: {total} tokens in total',
+      lastRead: '• Reused from the saved part (cheap): {read}',
+      lastWrite: '• Saved for the next messages: {write}',
+      lastInput: '• New text (your message, results): {input}',
+      lastOutput: '• Claude’s answer: {output}',
+      reusedShare: 'Reused share: {hit}% ({grade})',
+      sessionTitle: 'This session in total',
+      sessionLine: 'Claude: {req} messages · {tot} tokens ({read} reused cheaply)',
+      pulseTitle: 'Session pulse & cozy score',
+      pulseScore: 'Efficiency: {score}/100 ({grade}) · Clean streak: {streak}',
+      sparkTitle: 'Conversation growth across recent messages',
+      savingsTitle: 'Saved by the prompt cache',
+      savingsLine: '~{saved} tokens saved by reusing the saved part ({hit}% reuse)',
+      stickersTitle: 'Cozy stickers unlocked ({n}/5)',
+      lifetimeTitle: 'All-time across sessions',
+      lifetimeLine: '{req} messages · {tot} tokens · ~{saved} saved by cache · {pets} headpats',
+      toolsTitle: 'Tokens per tool (estimated)',
+      topCalls: 'Costliest steps',
+      tipsNone: 'Nothing to improve right now.'
     };
 
     const state = {
-      lang: 'en',
       theme: 'sakura',
       mood: 'cozy',
       tab: 'live',
@@ -946,17 +916,11 @@ const html = `<!DOCTYPE html>
         {
           sev: 'warning',
           msg: 'app.ts read 3× with no edit in between',
-          msgAz: 'app.ts faylı 3 dəfə təkrar oxundu (arada dəyişiklik olmadan)',
           steps: [
             'Tell Claude: "You already read this file. Don\\'t read it again in full; search for the part you need."',
             'If you know which part matters, name it (a function, a heading, an error message).',
             'This changes nothing in the file; it only makes reading shorter.'
           ],
-          stepsAz: [
-            'Claude-a yazın: "Bu faylı artıq oxumusan. Yenidən bütöv oxuma, lazım olan yeri axtar."',
-            'Hansı hissə lazımdırsa, adını deyin (funksiya, başlıq, xəta mətni).',
-            'Bu, faylda heç nəyi dəyişmir, sadəcə oxumanı qısaldır.'
-          ]
         }
       ]
     };
@@ -985,28 +949,24 @@ const html = `<!DOCTYPE html>
       state.mood = 'cozy';
       spawnHearts();
       document.getElementById('toast-text').textContent =
-        state.lang === 'az'
-          ? \`Lumi sevincdən mırıldayır! [♥‿♥] (\${state.pets} sığal)\`
-          : \`Lumi purrs happily! [♥‿♥] (\${state.pets} headpats)\`;
+        \`Lumi purrs happily! [♥‿♥] (\${state.pets} headpats)\`;
       render();
     }
 
     function cycleTheme() {
       const order = ['teal', 'sakura', 'lavender', 'matcha'];
       state.theme = order[(order.indexOf(state.theme) + 1) % order.length];
-      const name = I18N[state.lang].theme[state.theme];
-      document.getElementById('toast-text').textContent =
-        state.lang === 'az' ? \`Lumi rəngi: \${name}.\` : \`Lumi theme: \${name}.\`;
+      const name = I18N.theme[state.theme];
+      document.getElementById('toast-text').textContent = \`Lumi theme: \${name}.\`;
       render();
     }
 
     function render() {
-      const L = I18N[state.lang];
+      const L = I18N;
       const svg = SPRITES[state.theme][state.mood];
       document.getElementById('nav-mascot').innerHTML = svg;
       document.getElementById('stage-sprite').innerHTML = svg;
       document.getElementById('nav-pet-count').textContent = state.pets;
-      document.getElementById('pane-lang-indicator').textContent = 'lang: ' + state.lang;
       document.getElementById('mood-face-badge').textContent = FACES[state.mood] + ' ' + L.mood[state.mood];
 
       document.querySelectorAll('#theme-chips .chip').forEach(btn => {
@@ -1076,12 +1036,10 @@ const html = `<!DOCTYPE html>
           pane.innerHTML = \`<div style="color:#8A90A6;">\${L.tipsNone}</div>\`;
         } else {
           pane.innerHTML = state.tips.map((tip, idx) => {
-            const steps = state.lang === 'az' ? tip.stepsAz : tip.steps;
-            const msg = state.lang === 'az' ? tip.msgAz : tip.msg;
             return \`
               <div style="margin-bottom:12px;">
-                <div style="margin-bottom:6px;"><strong style="color:#F5C542">[warning]</strong> \${msg}</div>
-                \${steps.map((s, i) => \`<div style="color:#E2E8F0;margin-left:8px;">\${i + 1}. \${s}</div>\`).join('')}
+                <div style="margin-bottom:6px;"><strong style="color:#F5C542">[warning]</strong> \${tip.msg}</div>
+                \${tip.steps.map((s, i) => \`<div style="color:#E2E8F0;margin-left:8px;">\${i + 1}. \${s}</div>\`).join('')}
                 <button class="pane-tab" style="margin-top:8px;" onclick="state.tips.splice(\${idx},1);render();">Dismiss</button>
               </div>
             \`;
@@ -1119,7 +1077,7 @@ const html = `<!DOCTYPE html>
       }
 
       const warnText = state.tips[0]
-        ? \` · <span style="color:#F5C542">warning:</span> \${state.lang === 'az' ? state.tips[0].msgAz : state.tips[0].msg}\`
+        ? \` · <span style="color:#F5C542">warning:</span> \${state.tips[0].msg}\`
         : '';
       document.getElementById('band-line').innerHTML =
         \`<span>\${FACES[state.mood]} <span style="color:#8A90A6">\${L.mood[state.mood]}</span> · <span style="color:\${barColor}">ctx \${ratio}%</span>\${warnText}</span>\`;
@@ -1129,11 +1087,6 @@ const html = `<!DOCTYPE html>
     document.getElementById('stage-pet-btn').addEventListener('click', petLumi);
     document.getElementById('nav-pet-btn').addEventListener('click', petLumi);
     document.getElementById('stage-theme-btn').addEventListener('click', cycleTheme);
-
-    document.getElementById('lang-toggle').addEventListener('click', () => {
-      state.lang = state.lang === 'en' ? 'az' : 'en';
-      render();
-    });
 
     document.querySelectorAll('#theme-chips .chip').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -1174,15 +1127,10 @@ const html = `<!DOCTYPE html>
           state.tips = [{
             sev: 'warning',
             msg: 'app.ts read 3× with no edit in between',
-            msgAz: 'app.ts faylı 3 dəfə təkrar oxundu (arada dəyişiklik olmadan)',
-            steps: [
+              steps: [
               'Tell Claude: "You already read this file. Don\\'t read it again in full; search for the part you need."',
               'If you know which part matters, name it (a function, a heading, an error message).'
             ],
-            stepsAz: [
-              'Claude-a yazın: "Bu faylı artıq oxumusan. Yenidən bütöv oxuma, lazım olan yeri axtar."',
-              'Hansı hissə lazımdırsa, adını deyin (funksiya, başlıq, xəta mətni).'
-            ]
           }];
           document.getElementById('toast-text').textContent = 'app.ts read 3× with no edit in between. Tell Claude: "Search for the part you need."';
         } else if (s === 'r2') {

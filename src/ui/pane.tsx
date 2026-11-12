@@ -133,7 +133,7 @@ function live(E: UiEls, v: LensView, cols: number, on: PaneHandlers) {
       </Box>
       <Box flexDirection="column">
         <Text dimColor wrap="wrap">
-          {v.ttlKnown ? t(L, 'live.ttlKnown', { ttl: `${v.ttlMinutes} ${L === 'az' ? 'dəq' : 'min'}` }) : t(L, 'live.ttlAssumed')}
+          {v.ttlKnown ? t(L, 'live.ttlKnown', { ttl: `${v.ttlMinutes} min` }) : t(L, 'live.ttlAssumed')}
         </Text>
         {v.windowKnown ? null : <Text dimColor>{t(L, 'live.windowAssumed')}</Text>}
         {v.muted ? <Text dimColor>{t(L, 'live.muted')}</Text> : null}

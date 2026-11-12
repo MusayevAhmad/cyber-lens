@@ -174,7 +174,7 @@ test('tip board: one row per rule+subject, dismissed stays dismissed, bounded', 
   expect(b.list()).toHaveLength(3)
 })
 
-test('every rule message and every tip variant resolves in en and az', async () => {
+test('every rule message and every tip variant resolves in en', async () => {
   const variants: Record<string, (string | undefined)[]> = {
     R2: ['bash', 'read', 'other'], R5: ['idle', 'model', 'compaction', 'unknown'], R6: ['known', 'assumed'], R7: ['warn', 'strong'],
   }
@@ -183,7 +183,7 @@ test('every rule message and every tip variant resolves in en and az', async () 
     for (const v of variants[r.id] ?? [undefined]) {
       const k = tipKey(r.tip, v)
       expect(hasKey(k)).toBe(true)
-      expect(t('az', k, { tokens: 1, file: 'f', count: 3, percent: 70, seconds: 9, tool: 'Bash' })).not.toContain('{')
+      expect(t('en', k, { tokens: 1, file: 'f', count: 3, percent: 70, seconds: 9, tool: 'Bash' })).not.toContain('{')
     }
   }
   expect(t('en', 'rule.R1.msg', { file: 'a.ts', count: 3 })).toBe('a.ts read 3× with no edit in between')
@@ -195,7 +195,7 @@ test('tips are plain steps that never put the project at risk', async () => {
   const RISKY = [/rm -/, /--force/, /--no-verify/, /git reset/, /git push/, /git checkout/, /\s-q\b/, /--silent/, /\/dev\/null/, /chmod/, /sudo/]
   const tipKeys = (Object.keys(en) as (keyof typeof en)[]).filter(k => /^rule\.R\d\.tip/.test(k))
   expect(tipKeys.length).toBeGreaterThan(10)
-  for (const lang of ['en', 'az'] as const) {
+  for (const lang of ['en'] as const) {
     for (const k of tipKeys) {
       const text = t(lang, k, { tokens: 1 })
       for (const r of RISKY) expect(r.test(text)).toBe(false)
@@ -206,8 +206,8 @@ test('tips are plain steps that never put the project at risk', async () => {
 
 test('config: defaults, clamping, and garbage', async () => {
   expect(normalizeConfig(undefined)).toEqual(DEFAULTS)
-  const c = normalizeConfig({ language: 'az', repeat_read_threshold: 1, max_toasts: '7', context_warn_percent: 90, context_strong_percent: 50, toasts: 'false', ring_size: 1e9 })
-  expect(c.language).toBe('az')
+  const c = normalizeConfig({ repeat_read_threshold: 1, max_toasts: '7', context_warn_percent: 90, context_strong_percent: 50, toasts: 'false', ring_size: 1e9 })
+  expect(c.language).toBe('en')
   expect(c.thresholds.repeatRead).toBe(2)
   expect(c.maxToasts).toBe(7)
   expect(c.thresholds.contextStrong).toBe(0.9) // never below warn

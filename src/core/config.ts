@@ -1,7 +1,7 @@
 // Configuration: defaults, and a normaliser that turns the manifest's flat
 // userConfig values into a clamped, typed Config. Pure.
 
-export type Lang = 'en' | 'az'
+export type Lang = 'en'
 export type Theme = 'teal' | 'sakura' | 'lavender' | 'matcha'
 
 export const THEMES: readonly Theme[] = ['teal', 'sakura', 'lavender', 'matcha']
@@ -104,7 +104,7 @@ export function normalizeConfig(options: Readonly<Record<string, unknown>> | und
   const warn = pct(o.context_warn_percent, t.contextWarn, 10, 99)
   const strong = Math.max(warn, pct(o.context_strong_percent, t.contextStrong, 10, 100))
   return {
-    language: o.language === 'az' ? 'az' : 'en',
+    language: 'en',
     theme: isTheme(o.theme) ? o.theme : d.theme,
     thresholds: {
       repeatRead: Math.round(num(o.repeat_read_threshold, t.repeatRead, 2, 50)),

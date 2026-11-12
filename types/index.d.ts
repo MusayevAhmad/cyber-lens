@@ -2,7 +2,7 @@
 // Plain JSON. It holds numbers, tool names and file basenames only: never
 // arguments, output, prompts or full paths.
 
-export type LensLang = 'en' | 'az'
+export type LensLang = 'en'
 export type LensMood = 'idle' | 'happy' | 'thinking' | 'worried' | 'alarmed' | 'sleepy' | 'cozy'
 export type LensTheme = 'teal' | 'sakura' | 'lavender' | 'matcha'
 export type LensSeverity = 'info' | 'warn' | 'strong'

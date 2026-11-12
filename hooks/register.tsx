@@ -42,13 +42,12 @@ const TABS: readonly LensTab[] = ['live', 'tools', 'tips', 'pulse']
 const viewAtom = atom({ plugin: 'token-lens', key: 'view' } as const, null, { shape: 'view-4' })
 const tabAtom = atom({ plugin: 'token-lens', key: 'tab' } as const, 'live')
 
-type Prefs = { language?: Lang; theme?: Theme; muted?: boolean; pets?: number }
+type Prefs = { theme?: Theme; muted?: boolean; pets?: number }
 
 function parsePrefs(v: unknown): Prefs {
   if (!v || typeof v !== 'object') return {}
   const o = v as Record<string, unknown>
   const p: Prefs = {}
-  if (o.language === 'en' || o.language === 'az') p.language = o.language
   if (isTheme(o.theme)) p.theme = o.theme
   if (typeof o.muted === 'boolean') p.muted = o.muted
   if (typeof o.pets === 'number' && Number.isFinite(o.pets) && o.pets >= 0) p.pets = Math.floor(o.pets)
@@ -59,7 +58,7 @@ export const register: Register = (on, options) => {
   const cfg = normalizeConfig(options)
   const tracker = new Tracker(cfg)
   const guard = new Guard()
-  let lang: Lang = cfg.language
+  const lang: Lang = 'en'
   let theme: LensTheme = cfg.theme
   let prefs: Prefs = {}
   let timer: Timer | undefined
@@ -89,7 +88,6 @@ export const register: Register = (on, options) => {
     await guard.run((m, o) => $.ui.log(m, o), async () => {
       sawSurface = sawSurface || e.surface !== null || e.isInteractive
       prefs = parsePrefs(await $.store.get(PREFS_KEY))
-      if (prefs.language) lang = prefs.language
       if (prefs.theme) theme = prefs.theme
       if (prefs.pets !== undefined) tracker.pets = prefs.pets
       tracker.governor.muted = prefs.muted === true
@@ -157,7 +155,7 @@ export const register: Register = (on, options) => {
       await $.command.register({
         name: 'tokens',
         description: t(lang, 'cmd.description'),
-        argumentHint: '[pet|theme|mute|unmute|reset|close|lang az|en]',
+        argumentHint: '[pet|theme|mute|unmute|reset|close]',
         immediate: true,
       })
       timer?.cancel()
@@ -311,14 +309,6 @@ export const register: Register = (on, options) => {
         await $.store.set(PREFS_KEY, { ...prefs })
         await writeView()
         $.ui.toast(t(lang, 'cmd.reset'))
-      } else if (sub === 'lang' && (arg === 'en' || arg === 'az')) {
-        lang = arg
-        prefs = { ...prefs, language: arg }
-        await $.store.set(PREFS_KEY, { ...prefs })
-        await writeView()
-        // Retitle the pane only if it is already open: never open it unasked.
-        if ((await $.ui.panes()).some(p => p.id === PANE_ID)) await $.ui.open({ id: PANE_ID, title: t(lang, 'ui.title') })
-        $.ui.toast(t(lang, 'cmd.lang'))
       } else {
         $.ui.toast(t(lang, 'cmd.usage'))
       }

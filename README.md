@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  Claude Code 2.1.287+ · English and Azərbaycan dili · MIT
+  Claude Code 2.1.287+ · MIT
 </p>
 
 <p align="center">
@@ -79,7 +79,6 @@ Where no flag can be given (a session the desktop app starts), set `CLAUDE_CODE_
 | `/tokens pet` | Pets Lumi so she purrs with floating pixel hearts for 30 seconds (`cozy` mood). |
 | `/tokens theme [teal\|sakura\|lavender\|matcha]` | Cycles or sets Lumi's coat palette. The setting is remembered. |
 | `/tokens mute` / `unmute` | Silences or restores toasts. The setting is remembered. |
-| `/tokens lang az` / `lang en` | Switches the language. The setting is remembered. |
 | `/tokens reset` | Resets session and lifetime counts. |
 
 `/tokens` runs immediately, even while a turn is streaming. It answers with no text, because a command's text becomes a transcript row Claude reads. Confirmations appear as toasts, which Claude never sees.
@@ -213,7 +212,6 @@ Set these in `/config` (each is a row there) or in `~/.claude/settings.json`:
 
 | Option | Default | Meaning |
 |---|---|---|
-| `language` | `en` | `en` or `az`. `/tokens lang` overrides it. |
 | `theme` | `teal` | `teal`, `sakura`, `lavender`, or `matcha`. `/tokens theme` overrides it. |
 | `band` | `true` | Show the line above the prompt. |
 | `animation` | `true` | Animate Lumi. Off shows one still frame. |
@@ -299,7 +297,7 @@ The calls are UI, command, store, clock and `$.state`. `$.state` is the session-
 - **File paths** stay in memory only, for R1 repeat-read detection. They're shown as basenames only and never persisted. That is stricter than storing a hash.
 - **Persisted in `$.store`:**
   - `aggregates-v1`: counts only, namely calls, estimated tokens and errors per tool type; exact token totals for main and subagents; and how many times each rule fired.
-  - `prefs-v1`: `language`, `muted`, and `theme`.
+  - `prefs-v1`: `muted` and `theme`.
 
   A test checks that no path, argument or output ever reaches the store.
 
@@ -335,7 +333,7 @@ token-lens/
 ├── src/core/                    pure logic (no `$`): ledger, attribution, rules, mood,
 │                                pulse, tracker, view, config, safe (the guard), format
 ├── src/ui/                      pane, band, mascot, faces, text
-├── src/i18n/                    en, az (the types make az carry every English key)
+├── src/i18n/                    en (plain English strings)
 ├── types/index.d.ts             the $.state contract (PluginState)
 ├── test/                        unit tests and mod-kit tests (world.tsx is the fake engine)
 ├── design-system/               UI/UX Pro Max design system (MASTER.md)
@@ -374,7 +372,7 @@ claude plugin validate .
 3. Compare Live with `/usage` and the statusline. The last request's input, cache read, cache write and output should match exactly, and context % should match once the window is measured.
 4. Run `/compact`, then check that the next request isn't flagged and nothing negative appears. Repeat with `/clear` and `--resume`: the counters re-baseline.
 5. Run a command with large output (`cat` a big file through Bash): R2 should toast once, and the second time within 10 min it shouldn't.
-6. Check `/tokens mute`, `/tokens lang az`, `/tokens close`, and turning off `band` and `animation` in `/config`.
+6. Check `/tokens mute`, `/tokens theme`, `/tokens close`, and turning off `band` and `animation` in `/config`.
 7. Check that Lumi animates in the terminal pane and stops when you switch tabs.
 
 ---

@@ -8,13 +8,13 @@ Prepared with `social-launch`, `humanizer-zh`, and `unslop` rules (zero em-dashe
 
 A single verbose test log in Claude Code can quietly eat 15% of your context window. You usually do not notice until auto-compaction wipes out the file details you still needed.
 
-I wanted to see what happens when you turn Claude Code token observability into a cozy desk companion you actually want to keep open all day, with live telemetry in plain English and Azerbaijani, and a 16x16 pixel mascot named Lumi whose mood follows your session.
+I wanted to see what happens when you turn Claude Code token observability into a cozy desk companion you actually want to keep open all day, with live telemetry in plain English, and a 16x16 pixel mascot named Lumi whose mood follows your session.
 
 So I built and shipped `lumi-lens` (`MusayevAhmad/lumi-lens`) with a new `Pulse` tab, headpats, and a lot of pixel love for Lumi.
 
 Here is what is new under the hood:
 
-1. You can now pet the mascot. Run `/tokens pet` (or click the `Pet Lumi` button in the desktop or VS Code pane) and Lumi drops into a `cozy` mood for 30 seconds. Her eyes turn into happy arcs, her antenna coin turns into a heart, and pixel hearts float up at 4 frames per second.
+1. You can now pet the mascot. Run `/tokens pet` (or click the `Pet Lumi` button in the desktop or VS Code pane) and Lumi drops into a `cozy` mood for 30 seconds. Her eyes turn into happy arcs, her lucky star pulses bright, and pixel hearts float up at 4 frames per second.
 
 2. Four pastel coat palettes. Run `/tokens theme` to dress Lumi in `teal`, `sakura`, `lavender`, or `matcha`. On the terminal, every frame is pre-encoded into a 16x8 half-block raster (`▀` and `▄`) and painted with `$.ui.blit`, so changing coats or animating frames never redraws the rest of the pane.
 
@@ -22,7 +22,7 @@ Here is what is new under the hood:
 
 4. Five unlockable session stickers. Keep your prompt cache hit ratio at or above 85% and you unlock `Cache Whisperer`. Run surgical edits or pet Lumi to collect `Best Friend` and three other cozy badges, right above an all-time token ledger across main and subagent loops.
 
-5. An interactive browser simulator in `docs/index.html`. You can click through all 4 tabs, switch between all 7 moods and 4 coat themes, and test the English and Azerbaijani UI before installing anything.
+5. An interactive browser simulator in `docs/index.html`. You can click through all 4 tabs, switch between all 7 moods and 4 coat themes, and test the pure English UI before installing anything.
 
 The hardest constraint was keeping the whole mod strictly observe-only with zero runtime dependencies. There is no `package.json`. It makes zero model or network calls, and it never touches your system prompt. Your prompt cache stays warm. Every hook runs inside a fail-open guard in 0.4 ms to 12.6 ms. All 71 tests pass, along with `claude plugin validate .` on Claude Code 2.1.317.
 
@@ -44,7 +44,7 @@ How are you tracking prompt cache hits and context growth in your daily coding s
 
 We just shipped `lumi-lens` for Claude Code.
 
-It is a zero-dependency, read-only mod that turns raw token metrics into plain English and Azerbaijani, with a 16x16 pixel mascot named Lumi.
+It is a zero-dependency, read-only mod that turns raw token metrics into plain English, with a 16x16 pixel mascot named Lumi.
 
 Featured: the 4th `Pulse` tab, `/tokens pet`, and 4 pastel coat themes.
 

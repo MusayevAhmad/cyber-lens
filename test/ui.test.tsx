@@ -97,20 +97,19 @@ test('a measured window replaces the assumed one', async ($, on) => {
   await ui.unmount()
 })
 
-test('the pane follows /tokens lang az', async ($, on) => {
+test('the pane draws clear English words on terminal surface', async ($, on) => {
   const w = world(on)
   await session($, w)
-  await $.command.run(cmd('lang az'))
   await $.command.run(cmd(''))
   const ui = await $.ui.mount({ ...PANE, surface: 'terminal' })
-  expect(await ui.find({ type: 'Text', text: /Söhbət nə qədər doludur/ })).toBeDefined()
-  expect(await ui.find({ type: 'Text', text: /Son mesaj: cəmi 20k token/ })).toBeDefined()
-  expect(await ui.find({ type: 'Text', text: /Yadda saxlanandan təkrar istifadə \(ucuz\): 20k/ })).toBeDefined()
+  expect(await ui.find({ type: 'Text', text: /How full the conversation is/ })).toBeDefined()
+  expect(await ui.find({ type: 'Text', text: /Last message: 20k tokens in total/ })).toBeDefined()
+  expect(await ui.find({ type: 'Text', text: /Reused from the saved part \(cheap\): 20k/ })).toBeDefined()
   await ui.press({ key: 'tab-tools' })
-  expect(await ui.find({ type: 'Text', text: /^Read \(fayl oxuma\)/ })).toBeDefined()
+  expect(await ui.find({ type: 'Text', text: /^Read \(read file\)/ })).toBeDefined()
   await ui.press({ key: 'tab-tips' })
-  expect(await ui.find({ type: 'Text', text: /app\.ts faylı 3 dəfə təkrar oxundu/ })).toBeDefined()
-  expect(await ui.find({ type: 'Text', text: /^1\. Claude-a yazın:/ })).toBeDefined()
+  expect(await ui.find({ type: 'Text', text: /app\.ts read 3× with no edit in between/ })).toBeDefined()
+  expect(await ui.find({ type: 'Text', text: /^1\. Tell Claude:/ })).toBeDefined()
   await ui.unmount()
 })
 
